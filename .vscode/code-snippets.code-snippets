@@ -1,0 +1,213 @@
+{
+	// Place your abm-ui 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"For Object": {
+		"scope": "typescript",
+		"prefix": "forobj",
+		"body": [
+			"for (const [key, value] of Object.entries($1)) {",
+			"\t$0",
+			"}"
+		]
+	},
+	"ConnectedCallback": {
+		"scope": "typescript",
+		"prefix": "conn",
+		"body": [
+			"connectedCallback() {",
+			"\t$0",
+			"}"
+		]
+	},
+	"DisonnectedCallback": {
+		"scope": "typescript",
+		"prefix": "disconn",
+		"body": [
+			"disconnectedCallback() {",
+			"\t$0",
+			"}"
+		]
+	},
+	"Attr Getter Setter": {
+		"scope": "typescript",
+		"prefix": "attr",
+		"body": [
+			"get $1() {",
+			"\treturn this.hasAttribute('$1');",
+			"}",
+			"set $1(value: boolean) {",
+			"\tthis.toggleAttribute('$1', value);$0",
+			"}"
+		]
+	},
+	"Default Constructor": {
+		"scope": "typescript",
+		"prefix": "cons",
+		"body": [
+			"constructor() {",
+			"\tsuper();",
+			"\t$0",
+			"}"
+		]
+	},
+	"Widget": {
+		"scope": "typescript",
+		"prefix": "widget",
+		"body": [
+			"import { configs } from 'configs';",
+			"import { EventHandler, Events, IEventSource } from 'event';",
+			"import TEMPLATE from './templates/$2.static.pug';",
+			"",
+			"export interface Widget$1Events {}",
+			"",
+			"export class Widget$1 extends HTMLElement implements IEventSource<Widget$1Events> {",
+			"\t#inited = false;",
+			"\t#events = new Events<Widget$1Events>([]);",
+			"\t#shadowRoot = this.attachShadow({ mode: 'open' });",
+			"\tconstructor() {",
+			"\t\tsuper();",
+			"\t\tthis.#shadowRoot.innerHTML = TEMPLATE;",
+			"\t\tthis.#shadowRoot.prepend(configs.getCSSImporter());$0",
+			"\t}",
+			"\tconnectedCallback() {",
+			"\t\tif (this.#inited) return;",
+			"\t\tthis.#inited = true;",
+			"\t}",
+			"\t//#region Disabled",
+			"\tget disabled() {",
+			"\t\treturn this.hasAttribute('disabled');",
+			"\t}",
+			"\tset disabled(value: boolean) {",
+			"\t\tthis.#inited = true;",
+			"\t\tthis.toggleAttribute('disabled', value);",
+			"\t}",
+			"\t//#region Event",
+			"\ton<Type extends keyof Widget$1Events>(type: Type, handler: EventHandler<Type, Widget$1Events[Type], any>): void {",
+			"\t\tthis.#events.on(type, handler);",
+			"\t}",
+			"\toff<Type extends keyof Widget$1Events>(type: Type, handler: EventHandler<Type, Widget$1Events[Type], any>): void {",
+			"\t\tthis.#events.off(type, handler);",
+			"\t}",
+			"\t//#region Clone",
+			"\tcloneNode(deep?: boolean): Widget$1 {",
+			"\t\tconst node = super.cloneNode(deep) as Widget$1;",
+			"\t\tnode.disabled = this.disabled;",
+			"\t\treturn node;",
+			"\t}",
+			"}",
+			"",
+			"customElements.define('w-$2', Widget$1);",
+			"",
+		]
+	},
+	"UI Event": {
+		"scope": "typescript",
+		"prefix": "UIEvent",
+		"body": [
+			"import { EventBase } from 'event/api/base';",
+			"import { run } from 'utils/function';",
+			"import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';",
+			"",
+			"export class UIEvent$1 extends EventBase<'$2', HTMLElement> implements IUIEventBase<'$2'> {",
+			"\t#$2: boolean;",
+			"\tconstructor(target: HTMLElement, $2: boolean) {",
+			"\t\tsuper('$2', { target });",
+			"\t\tthis.#$2 = $2;",
+			"\t}",
+			"\tget $2() {",
+			"\t\treturn this.#$2;",
+			"\t}",
+			"}",
+			"",
+			"export type UIEvent$1Handler = IUIEventHandler<'$2', HTMLElement, UIEvent$1>;",
+			"",
+			"export class UIEvent$1Manager implements IUIEventBaseManage<'$2'> {",
+			"\t#subscriptions: WeakMap<HTMLElement, Set<UIEvent$1Handler>> = new WeakMap();",
+			"\t#activated: WeakSet<HTMLElement> = new WeakSet();",
+			"\t#emit(target: HTMLElement, $2: boolean) {",
+			"\t\tconst handlers = this.#subscriptions.get(target);",
+			"\t\tif (!handlers) return;",
+			"\t\tconst event = new UIEvent$1(target, $2);",
+			"\t\tfor (const handler of handlers) {",
+			"\t\t\trun(handler, event);",
+			"\t\t}",
+			"\t}",
+			"\ton<Target extends HTMLElement>(target: Target, handler: UIEvent$1Handler): void {",
+			"\t\tlet handlers = this.#subscriptions.get(target);",
+			"\t\tif (!handlers) {",
+			"\t\t\thandlers = new Set();",
+			"\t\t\tthis.#subscriptions.set(target, handlers);",
+			"\t\t\tthis.#bind(target);",
+			"\t\t}",
+			"\t\thandlers.add(handler);",
+			"\t}",
+			"\toff<Target extends HTMLElement>(target: Target, handler: UIEvent$1Handler): void {",
+			"\t\tthis.#subscriptions.get(target)?.delete(handler);",
+			"\t}",
+			"\tadd<Target extends HTMLElement>(target: Target): void {",
+			"\t\tif (this.#subscriptions.has(target)) return;",
+			"\t\tthis.#subscriptions.set(target, new Set());",
+			"\t\tthis.#bind(target);",
+			"\t}",
+			"\trm<Target extends HTMLElement>(target: Target): void {",
+			"\t\tthis.#subscriptions.delete(target);",
+			"\t\tthis.#deactivate(target);",
+			"\t\tthis.#unbind(target);",
+			"\t}",
+			"\t#bind<Target extends HTMLElement>(target: Target): void {",
+			"\t\t// TODO: Bind Events",
+			"\t}",
+			"\t#unbind<Target extends HTMLElement>(target: Target): void {",
+			"\t\t// TODO: Unbind",
+			"\t}",
+			"\t#activate(target: HTMLElement) {",
+			"\t\tthis.#activated.add(target);",
+			"\t\ttarget.toggleAttribute('ui-$2', true);",
+			"\t}",
+			"\t#deactivate(target: HTMLElement) {",
+			"\t\tthis.#activated.delete(target);",
+			"\t\ttarget.toggleAttribute('ui-$2', false);",
+			"\t}$0",
+			"}",
+			"",
+		],
+	},
+	"UI Event Raw Handler (Activate)": {
+		"scope": "typescript",
+		"prefix": "handler activate",
+		"body": [
+			"(event: $1) => {",
+			"\tconst target = event.currentTarget as HTMLElement;",
+			"\tif (!target || this.#activated.has(target)) return;",
+			"\tthis.#activate(target);",
+			"\tthis.#emit(target, true);$0",
+			"};",
+		]
+	},
+	"UI Event Raw Handler (Deactivate)": {
+		"scope": "typescript",
+		"prefix": "handler deactivate",
+		"body": [
+			"(event: $1) => {",
+			"\tconst target = event.currentTarget as HTMLElement;",
+			"\tif (!(target && this.#activated.has(target))) return;",
+			"\tthis.#deactivate(target);",
+			"\tthis.#emit(target, false);$0",
+			"};",
+		]
+	},
+}

@@ -1,0 +1,80 @@
+@keyframes ui-dialog-filter
+	0%
+		opacity 0
+	100%
+		opacity 1
+
+@keyframes ui-dialog
+	0%
+		scale 0
+	100%
+		scale 1
+
+.ui-dialog
+	position fixed
+	z-index 50
+	display flex
+	flex-direction column
+	margin auto
+	padding 24px
+	max-width 100vw
+	max-height 100vh
+	width max-content
+	height max-content
+	outline 1px solid var(--ui-dialog-border)
+	border-radius 4px
+	background var(--ui-dialog-bg)
+	transition .1s scale cubic-bezier(1, 0, 1, 0)
+	animation ui-dialog .5s cubic-bezier(0, 1, 0, 1)
+	inset 0
+	gap 16px
+
+.ui-dialog-filter
+	background var(--ui-dialog-filter-bg)
+	transition .1s opacity
+	animation ui-dialog-filter .1s
+
+.ui-dialog-title
+	display flex
+	align-items center
+	font-size 32px
+	gap 8px
+
+.ui-dialog-content
+	flex 0 1 auto
+	overflow auto
+
+.ui-dialog-actions
+	display flex
+	flex-wrap wrap
+	align-items center
+	gap 8px
+	&>*
+		flex 1 0 auto
+
+.ui-dialog-hiding
+	scale 0
+
+.ui-dialog-filter-hiding
+	opacity 0
+
+// Mobile
+// @keyframes ui-dialog-mobile
+// 0%
+// translate 0 100%
+// 100%
+// translate 0 0%
+@media (pointer coarse)
+	// .ui-dialog
+	// top unset
+	// bottom 0
+	// width 100vw
+	// transition .1s translate cubic-bezier(1, 0, 1, 0)
+	// animation ui-dialog-mobile .5s cubic-bezier(0, 1, 0, 1)
+	// .ui-dialog-hiding
+	// scale 1
+	// translate 0 100%
+	.ui-dialog-actions
+		flex-direction column
+		w-btn
+			width 100%

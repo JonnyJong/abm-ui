@@ -1,0 +1,60 @@
+w-checkbox
+	display block
+
+.w-checkbox
+	display inline-block
+	margin-right 1ch
+	width 20px
+	height 20px
+	border 1px solid var(--w-checkbox-border)
+	border-radius 4px
+	background var(--w-checkbox-bg)
+	vertical-align text-top
+	transition .1s background
+	&>svg
+		display block
+		margin auto
+		height 100%
+
+.w-checkbox-mark
+	transition .1s stroke-dashoffset
+	fill none
+	fill-opacity .25
+	stroke var(--theme-text)
+	stroke-width 1.5
+	stroke-linecap round
+	stroke-linejoin round
+	stroke-opacity 1
+	paint-order markers fill stroke
+	stroke-dasharray 15
+	stroke-dashoffset 15
+
+:host([ui-hover])
+	.w-checkbox
+		background var(--w-checkbox-hover-bg)
+
+:host([ui-active])
+	.w-checkbox
+		background var(--w-checkbox-active-bg)
+
+:host([checked])
+	.w-checkbox
+		background var(--theme-ac)
+	.w-checkbox-mark
+		stroke-dashoffset 0
+
+:host([checked][ui-hover])
+	.w-checkbox
+		background var(--theme)
+
+:host([checked][ui-active])
+	.w-checkbox
+		background var(--theme-aa)
+
+:host([disabled])
+	.w-checkbox
+		background var(--w-checkbox-disabled-bg)
+
+:host([checked][disabled])
+	.w-checkbox
+		background var(--theme-a6)

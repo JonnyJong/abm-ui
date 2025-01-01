@@ -1,0 +1,77 @@
+w-select
+	display flex
+	align-items center
+	padding 0 8px
+	width max-content
+	border 1px solid var(--w-select-border)
+	border-radius 4px
+	background var(--w-select-bg)
+	transition .1s background
+	gap 4px
+	&:not([disabled])
+		&[ui-hover]
+			background var(--w-select-hover-bg)
+		&[ui-active]
+			background var(--w-select-active-bg)
+
+.w-select-content
+.w-select-placeholder
+	flex 1
+	height 32px
+	line-height 32px
+
+.w-select-content:empty
+.w-select-placeholder
+	display none
+
+.w-select-content:empty + .w-select-placeholder
+	display block
+	opacity .6
+
+.w-select-picker
+	position fixed
+	top var(--w-select-top-begin)
+	left var(--w-select-left)
+	z-index 70
+	overflow hidden
+	width var(--w-select-width)
+	height 32px
+	border-radius 4px
+	background var(--w-select-picker-bg)
+	backdrop-filter blur(4px)
+
+.w-select-list
+	display flex
+	flex-direction column
+	overflow hidden auto
+	height var(--w-select-height)
+	translate 0 var(--w-select-item-diff)
+
+w-select-option
+	display block
+	display flex
+	flex 0 0 auto
+	align-items center
+	padding 0 8px
+	height 32px
+	border-radius 4px
+	transition .1s background
+	&:hover
+		background var(--w-select-option-hover-bg)
+	&:active
+		background var(--w-select-option-active-bg)
+
+.w-select-picker-show
+	top var(--w-select-top-end)
+	height var(--w-select-height)
+	transition .3s height, .3s top, .1s opacity
+	.w-select-list
+		transition .3s translate
+		translate 0 0px
+
+:host([disabled])
+	.w-select-icon
+	.w-select-content
+		opacity .7
+	.w-select-placeholder
+		opacity .3

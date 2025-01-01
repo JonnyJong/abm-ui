@@ -1,0 +1,81 @@
+w-progress-bar
+w-progress-ring
+	display block
+
+@keyframes w-progress-bar
+	10%
+		left 0%
+		width 10%
+	90%
+		left 90%
+		width 10%
+	25%
+	75%
+		width 30%
+	50%
+		left 30%
+		width 40%
+	100%
+		left 100%
+		width 0%
+
+.w-progress-bar-track
+	position relative
+	margin 2px 0
+	width 100%
+	height 1px
+	border-radius 1px
+	background var(--w-progress-bar-track)
+
+.w-progress-bar-thumb
+	position absolute
+	top -2px
+	left 0%
+	height 5px
+	border-radius 5px
+	background var(--theme)
+	transition .2s background, .1s left, .1s width
+
+.w-progress-bar-running
+	width 0%
+	animation w-progress-bar 1.5s linear infinite
+
+w-progress-ring
+	overflow hidden
+	width var(--w-progress-ring-size)
+	height var(--w-progress-ring-size)
+
+@keyframes w-progress-ring-track
+	100%
+		rotate 360deg
+
+@keyframes w-progress-ring-thumb
+	0%
+		stroke-dasharray 1, 200
+		stroke-dashoffset 0
+	50%
+		stroke-dasharray var(--w-progress-offset-a, 105.75), 200
+		stroke-dashoffset var(--w-progress-offset-b, -35.25)
+	100%
+		stroke-dasharray 1, 200
+		stroke-dashoffset var(--w-progress-offset-c, -141)
+
+.w-progress-ring-track
+	display block
+	width 100%
+	transition .1s rotate
+
+.w-progress-ring-thumb
+	transition .1s stroke-dasharray, .1s stroke-dashoffset, .1s stroke-width, .1s r, .2s stroke
+	fill none
+	stroke var(--theme)
+	stroke-width clamp(1, var(--w-progress-ring-thickness), 24)
+	stroke-linecap round
+	stroke-dasharray var(--w-progress-offset, 141), 200
+	stroke-dashoffset var(--w-progress, 141)
+	r calc(25 - clamp(1, var(--w-progress-ring-thickness), 24) / 2)
+
+.w-progress-ring-track-running
+	animation w-progress-ring-track 2s linear infinite
+	.w-progress-ring-thumb
+		animation w-progress-ring-thumb 1.5s ease-in-out infinite

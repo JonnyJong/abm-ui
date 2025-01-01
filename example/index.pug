@@ -1,0 +1,101 @@
+doctype html
+html
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		title ABM UI
+		link(rel="stylesheet", href="../dist/var.css")
+		script(src="../dist/index.js" defer)
+		script(src="./script.js" defer)
+	body
+		h1 ABM UI
+		h2 Event
+		h3 Hover
+		div(ui-layout="flow" ui-panel="large")
+			#dev-e-hover
+		h3 Active
+		div(ui-layout="flow" ui-panel="large")
+			#dev-e-active
+		h3 Slide
+		div#dev-e-slide(ui-layout="flow" ui-panel="large")
+		//- h3 Drag
+		//- div(ui-layout="flow" ui-panel="large")
+		h2 Keyboard
+		div(ui-layout="flow" ui-panel="large")
+			table(style="width:100%")
+				thead
+					tr
+						th ID
+						th Key Group
+						th(style="width:160px") Op
+				tbody#dev-ui-keyboard
+		h2 GameController
+		div#dev-ui-gamepad(ui-layout="flow-column" ui-panel="large")
+		h2 Components
+		h3 Tooltips
+		div(ui-layout="flow" ui-panel="large")
+			w-btn(tooltips="Hi there!") Hover Me
+			w-btn(tooltips="ui.confirm") Using tooltips by attr default using locale key
+		h3 Dialog
+		div(ui-panel="large" ui-layout="flow-column")
+			h5 Options
+			div(ui-panel="middle" ui-layout="flow-column")
+				h6="Title & Content"
+				w-text#dev-dialog(dev="title" placeholder="title" value="Set dialog title here")
+				w-text#dev-dialog(dev="icon" placeholder="icon" value="Settings")
+				w-text#dev-dialog(dev="content" placeholder="content" value="Set dialog content here")
+				h6 Main Action
+				w-select#dev-dialog(dev="state")
+				w-number#dev-dialog(dev="delay" min="0" default="0")
+			h5 Actions
+			div(ui-layout="flow" ui-panel="middle")
+				w-btn#dev-dialog(dev-action="confirm" disabled state="toggle") confirm
+				w-btn#dev-dialog(dev-action="cancel" disabled state="toggle") cancel
+				w-btn#dev-dialog(dev-action="ok" disabled state="toggle") ok
+			div(ui-layout="flow")
+				w-btn#dev-dialog(dev="new") Create Dialog
+				w-btn#dev-dialog(dev="confirm") Create Confirm Dialog
+				w-btn#dev-dialog(dev="ok") Create Ok Dialog
+		h3 Message
+		div(ui-panel="large" ui-layout="flow-column")
+			h5 Options
+			div(ui-panel="middle" ui-layout="flow-column")
+				w-text#dev-msg(dev="title" placeholder="title" value="Set message title here")
+				w-text#dev-msg(dev="icon" placeholder="icon" value="Warning")
+				w-text#dev-msg(dev="content" placeholder="content" value="Set message content here")
+				w-number#dev-msg(dev="delay" min="0" default="3000" placeholder="delay")
+				div(ui-layout="flow")
+					w-btn#dev-msg(dev="autoClose" checked state="toggle") autoClose
+			div(ui-layout="flow")
+				w-btn#dev-msg(dev="new") Create Msg
+				w-btn#dev-msg(dev="toggle" state="toggle") Toggle Msg Panel
+		h2 Widgets
+		h3 Button
+		div#dev-btn(ui-layout="flow-column" ui-panel="large")
+		h3 Input
+		h4 Text Input
+		div#dev-text(ui-layout="flow-column" ui-panel="large")
+		h4 Password Input
+		div#dev-psw(ui-layout="flow-column" ui-panel="large")
+		h4 Number Input
+		div#dev-num(ui-layout="flow-column" ui-panel="large")
+		h4 Text Field
+		div(ui-panel="large")
+			w-text-field
+			w-text-field(autoheight style="max-height:60vh;min-height:64px;" placeholder="This text field will auto set height")
+		h3 Switch
+		div#dev-switch(ui-layout="flow-column" ui-panel="large")
+		h3 Select
+		div#dev-select(ui-layout="flow-column" ui-panel="large")
+		h3 Progress
+		div#dev-progress(ui-layout="flow-column" ui-panel="large")
+		h3 Checkbox
+		div#dev-checkbox(ui-layout="flow-column" ui-panel="large")
+		h3 Slider
+		div#dev-slider(ui-layout="flow-column" ui-panel="large")
+		h3 Nav
+		div#dev-nav(ui-layout="flow-column" ui-panel="large")
+		h3 Color
+		div#dev-color(ui-layout="flow-column" ui-panel="large")
+		style.
+			body:not(:has(.ui-preset-fullscreen)) { overflow: hidden overlay; }

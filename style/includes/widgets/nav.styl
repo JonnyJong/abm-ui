@@ -1,0 +1,110 @@
+w-nav
+	position relative
+	display block
+	&[vertical]
+		width max-content
+
+.w-nav-indicator
+	position absolute
+	top 0
+	left calc(var(--w-nav-offset) + 8px)
+	width calc(var(--w-nav-size) - 16px)
+	height 4px
+	border-radius 4px
+	background var(--theme)
+	transition .2s left, .2s width
+
+.w-nav
+	position relative
+	display flex
+
+.w-nav-flex
+	flex 1
+
+.w-nav-item
+	display flex
+	flex-direction column
+	align-items center
+	overflow hidden
+	padding 8px
+	padding-top 12px
+	border-radius 4px
+	transition .1s background, .3s padding
+	interpolate-size allow-keywords
+	&[ui-hover]
+		background var(--w-nav-hover-bg)
+	&[ui-active]
+		background var(--w-nav-active-bg)
+		&>*
+			opacity var(--w-nav-active-content-opacity)
+	&>*
+		transition .3s opacity, .3s margin, .3s width, .3s scale
+	w-icon
+		height 20px
+		font-size 20px
+	&>:not(w-icon)
+		margin-top 8px
+		width calc-size(auto, size)
+		line-height 1
+
+:host([display='icon'])
+	.w-nav-item
+		padding 12px
+		&>:not(w-icon)
+			margin-top -16px
+			width 0px
+			opacity 0
+			scale 0
+
+:host([display='text'])
+	.w-nav-item
+		padding 12px
+		w-icon
+			margin-top -20px
+			opacity 0
+			scale 0
+		&>:not(w-icon)
+			margin-top 0px
+
+:host([vertical])
+	.w-nav
+		flex-direction column
+	.w-nav-item
+		flex-direction row
+		padding 12px
+		transition .1s background, .3s width
+		&>:not(w-icon)
+			margin 0
+			margin-left 12px
+	.w-nav-indicator
+		top calc(var(--w-nav-offset) + 8px)
+		left 0
+		width 4px
+		height calc(var(--w-nav-size) - 16px)
+		transition .2s top, .2s height
+
+:host([display='icon'][vertical])
+	.w-nav-item
+		width 44px
+		&>:not(w-icon)
+			margin 0 0 0 12px
+			width auto
+			opacity 1
+			scale 1
+
+:host([display='text'][vertical])
+	.w-nav-item
+		w-icon
+			margin-left -20px
+			opacity 0
+			scale 0
+		&>:not(w-icon)
+			margin-left 0px
+
+:host([disabled])
+	.w-nav-item
+		&[ui-hover]
+		&[ui-active]
+			background none
+			&>*
+				opacity 1

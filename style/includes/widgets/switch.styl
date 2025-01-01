@@ -1,0 +1,70 @@
+w-switch
+	display block
+	width max-content
+	border-radius 24px
+
+.w-switch-track
+	position relative
+	width 40px
+	height 24px
+	border 1px solid var(--w-switch-border)
+	border-radius 24px
+	background var(--w-switch-bg)
+	transition .1s background
+
+.w-switch-thumb
+	position absolute
+	top 3px
+	left 3px
+	width 16px
+	height 16px
+	border 2px solid var(--text)
+	border-radius 8px
+	background var(--text)
+	transition .1s scale, .1s left, .1s background
+
+.w-switch-draging
+	.w-switch-thumb
+		left clamp(3px, calc(3px + var(--w-switch-offset)), 19px)
+		transition none
+
+:host(:not([disabled]))
+	.w-switch-track
+		&[ui-hover]
+			background var(--w-switch-hover-bg)
+			.w-switch-thumb
+				scale 1.15
+		&:active
+			.w-switch-thumb
+				scale .8
+
+:host([ui-hover])
+	.w-switch-track
+		background var(--w-switch-hover-bg)
+		.w-switch-thumb
+			scale 1.15
+
+:host([ui-active])
+	.w-switch-track
+		.w-switch-thumb
+			scale .8
+
+:host([checked]:not([disabled]))
+	.w-switch-track
+		&:hover
+			background var(--theme)
+
+:host([checked])
+	.w-switch-track
+		background var(--theme-ad)
+	.w-switch-thumb
+		left 19px
+		border-color var(--theme-text)
+		background var(--theme-text)
+	.w-switch-draging
+		.w-switch-thumb
+			left clamp(3px, calc(19px + var(--w-switch-offset)), 19px)
+
+:host([disabled])
+	.w-switch-thumb
+		background #0000

@@ -1,0 +1,25 @@
+.ui-tooltips
+	position fixed
+	z-index 100
+	overflow hidden
+	width 0px
+	height 0px
+	border-radius 6px
+	border-radius 4px
+	background var(--ui-tooltips-bg)
+	opacity 0
+	transition .3s width, .3s height, .1s .1s opacity
+	pointer-events none
+	backdrop-filter blur(4px)
+
+.ui-tooltips-show
+	opacity 1
+
+.ui-tooltips-content
+	padding 8px 12px
+	width max-content
+	background #0000
+
+@media (pointer coarse)
+	.ui-tooltips
+		transition .1s .1s opacity

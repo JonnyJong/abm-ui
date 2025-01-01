@@ -1,0 +1,66 @@
+.ui-msg-container
+	position fixed
+	top var(--ui-msg-mgr-top)
+	right 0
+	z-index 60
+	overflow hidden
+	max-width 100%
+	max-height 100vh
+	width 350px
+	height s('max(var(--ui-msg-mgr-height), 0px)')
+	border-left 1px solid #0000
+	transition .1s height, .1s top, .1s border-color
+
+.ui-msg-mgr-open
+	top 0px
+	overflow hidden auto
+	height 100vh
+	border-left-color var(--ui-msg-mgr-border)
+	background var(--ui-msg-mgr-bg)
+	transition .1s height, .5s top, .1s border-color
+	.ui-msg-c-hide
+		display none
+
+@keyframes ui-msg-show
+	0%
+	50%
+		right -100%
+
+.ui-msg
+	position absolute
+	right 0%
+	display flex
+	flex-direction column
+	padding 16px
+	width 100%
+	border 1px solid var(--ui-msg-border)
+	border-left 4px solid var(--theme)
+	border-radius 4px
+	background var(--bg)
+	transition .1s top, .1s right
+	gap 4px
+
+.ui-msg-show
+	animation ui-msg-show .5s cubic-bezier(0, 1, 0, 1)
+
+.ui-msg-closing
+	right -100%
+
+.ui-msg-title
+	display flex
+	align-items center
+	padding-right 70px
+	font-size 20px
+	gap 6px
+
+.ui-msg-actions
+	display flex
+	flex-wrap wrap
+	gap 6px
+
+.ui-msg-control
+	position absolute
+	top 16px
+	right 16px
+	display flex
+	gap 4px
