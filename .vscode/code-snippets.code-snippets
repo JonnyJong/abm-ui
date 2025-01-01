@@ -69,7 +69,7 @@
 		"prefix": "widget",
 		"body": [
 			"import { configs } from 'configs';",
-			"import { EventHandler, Events, IEventSource } from 'event';",
+			"import { EventHandler, Events, IEventSource } from 'event/events';",
 			"import TEMPLATE from './templates/$2.static.pug';",
 			"",
 			"export interface Widget$1Events {}",
