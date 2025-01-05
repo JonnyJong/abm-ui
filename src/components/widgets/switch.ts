@@ -3,16 +3,22 @@ import { events, UIEventActive, UIEventSlide } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { Navigable } from 'navigate';
+import { Widget } from './base';
 import TEMPLATE from './templates/switch.static.pug';
 
 export interface WidgetSwitchEvents {
 	change: IEventBaseCreateOptions<WidgetSwitch>;
 }
 
+export interface WidgetSwitchProp {
+	checked?: boolean;
+	disabled?: boolean;
+}
+
 const SAFE_ZONE = 4;
 const SWITCH_DISTANCE = 8;
 
-export class WidgetSwitch extends HTMLElement implements IEventSource<WidgetSwitchEvents>, Navigable {
+export class WidgetSwitch extends Widget implements IEventSource<WidgetSwitchEvents>, Navigable {
 	#inited = false;
 	#events = new Events<WidgetSwitchEvents>(['change']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
@@ -102,6 +108,8 @@ export class WidgetSwitch extends HTMLElement implements IEventSource<WidgetSwit
 	get nonNavigable() {
 		return this.disabled;
 	}
+	//#region Prop
+	_prop?: WidgetSwitchProp;
 }
 
 customElements.define('w-switch', WidgetSwitch);

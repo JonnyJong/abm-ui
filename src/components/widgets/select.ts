@@ -8,6 +8,7 @@ import { Navigable, NavigateEvents, navigate } from 'navigate';
 import { $div, $new } from 'utils/dom';
 import { clamp } from 'utils/math';
 import { sleep } from 'utils/timer';
+import { Widget } from './base';
 import { WidgetIcon } from './icon';
 import TEMPLATE from './templates/select.static.pug';
 
@@ -17,13 +18,25 @@ export interface WidgetSelectEvents {
 	change: IEventBaseCreateOptions<WidgetSelect>;
 }
 
+export interface WidgetSelectProp<Value = any> {
+	options?: (WidgetSelectOption<Value> | IWidgetSelectOption<Value>)[];
+	value?: Value | undefined;
+	placeholder?: string | UIContentText | UIContentTextCreateOptions;
+	disabled?: boolean;
+}
+
+export interface WidgetSelectOptionProp<Value = any> {
+	value?: Value;
+	label?: string | UIContentText | UIContentTextCreateOptions;
+}
+
 export interface IWidgetSelectOption<Value = any> {
 	value: Value;
 	label: UIContentText | string | UIContentTextCreateOptions;
 }
 
 //#region Option
-export class WidgetSelectOption<Value = any> extends HTMLElement implements Navigable {
+export class WidgetSelectOption<Value = any> extends Widget implements Navigable {
 	#shadowRoot = this.attachShadow({ mode: 'open' });
 	value!: Value;
 	#label: UIContentText = new UIContentText();
@@ -64,12 +77,13 @@ export class WidgetSelectOption<Value = any> extends HTMLElement implements Navi
 		option.label = this.label.clone();
 		return option;
 	}
+	_prop?: WidgetSelectOptionProp;
 }
 
 customElements.define('w-select-option', WidgetSelectOption);
 
 //#region Select
-export class WidgetSelect<Value = any> extends HTMLElement implements IEventSource<WidgetSelectEvents>, Navigable {
+export class WidgetSelect<Value = any> extends Widget implements IEventSource<WidgetSelectEvents>, Navigable {
 	#inited = false;
 	#events = new Events<WidgetSelectEvents>(['change']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
@@ -274,6 +288,8 @@ export class WidgetSelect<Value = any> extends HTMLElement implements IEventSour
 	#navCancelHandler = () => {
 		this.#hidePicker();
 	};
+	//#region Prop
+	_prop?: WidgetSelectProp<Value>;
 }
 
 customElements.define('w-select', WidgetSelect);

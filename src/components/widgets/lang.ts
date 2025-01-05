@@ -1,6 +1,12 @@
 import { LocaleOptions, configs } from 'configs';
+import { Widget } from './base';
 
-export class WidgetLang extends HTMLElement {
+export interface WidgetLangProp {
+	namespace?: string;
+	key?: string;
+}
+
+export class WidgetLang extends Widget {
 	#inited = false;
 	#shadowRoot = this.attachShadow({ mode: 'open' });
 	#namespace = '';
@@ -55,6 +61,7 @@ export class WidgetLang extends HTMLElement {
 		lang.options = this.options;
 		return lang;
 	}
+	_prop?: WidgetLang;
 }
 
 customElements.define('w-lang', WidgetLang);

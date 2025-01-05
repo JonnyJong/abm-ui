@@ -3,8 +3,14 @@ import { Color } from 'utils/color';
 import { $applyColor, $div } from 'utils/dom';
 import { runSync } from 'utils/function';
 import { clamp } from 'utils/math';
+import { Widget } from './base';
 
-export class WidgetProgress extends HTMLElement {
+export interface WidgetProgressProp {
+	value?: number;
+	color?: Color | undefined;
+}
+
+export class WidgetProgress extends Widget {
 	#inited = false;
 	connectedCallback() {
 		if (this.#inited) return;
@@ -34,6 +40,7 @@ export class WidgetProgress extends HTMLElement {
 		prog.color = this.color;
 		return prog;
 	}
+	_prop?: WidgetProgressProp;
 }
 
 //#region Line
@@ -79,11 +86,16 @@ export class WidgetProgressBar extends WidgetProgress {
 customElements.define('w-progress-bar', WidgetProgressBar);
 
 //#region Ring
+export interface WidgetProgressRingProp extends WidgetProgressProp {
+	thickness?: number;
+}
+
 const RING_TEMPLATE =
 	'<svg class="w-progress-ring-track w-progress-ring-track-running" viewBox="25 25 50 50"><circle class="w-progress-ring-thumb" r="20" cy="50" cx="50"></circle></svg>';
 const RING_OFFSET_BEGIN = 157.3;
 const RING_OFFSET_SLOPE = -74 / 24;
 export class WidgetProgressRing extends WidgetProgress {
+	declare _prop?: WidgetProgressRingProp;
 	#inited = false;
 	#shadowRoot = this.attachShadow({ mode: 'open' });
 	#track: SVGElement;

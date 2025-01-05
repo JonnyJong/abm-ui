@@ -5,9 +5,19 @@ import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { Navigable } from 'navigate';
 import { $div } from 'utils/dom';
+import { Widget } from './base';
 
 export interface WidgetNavEvents<ID extends string = string> {
 	change: IEventBaseCreateOptions<WidgetNav<ID>>;
+}
+
+export interface WidgetNavProp<ID extends string = string> {
+	value?: ID | undefined;
+	items?: (IWidgetNavItem<ID> | WidgetNavItem<ID>)[];
+	endItems?: (IWidgetNavItem<ID> | WidgetNavItem<ID>)[];
+	disabled?: boolean;
+	vertical?: boolean;
+	display?: WidgetNavDisplay;
 }
 
 export interface WidgetNavItemEvents<ID extends string = string> {
@@ -79,7 +89,7 @@ export class WidgetNavItem<ID extends string = string> implements IEventSource<W
 
 //#region Nav
 export class WidgetNav<ID extends string = string>
-	extends HTMLElement
+	extends Widget
 	implements IEventSource<WidgetNavEvents<ID>>, Navigable
 {
 	#inited = false;
@@ -210,6 +220,8 @@ export class WidgetNav<ID extends string = string>
 	get navChildern(): Navigable[] {
 		return [...this.#items, ...this.#endItems].map((v) => v[ITEM]);
 	}
+	//#region Prop
+	_prop?: WidgetNavProp;
 }
 
 customElements.define('w-nav', WidgetNav);

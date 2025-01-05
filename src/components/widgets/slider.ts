@@ -8,6 +8,7 @@ import { UIEventSlide } from 'event/ui/slide';
 import { KeyboardEvents, keyboard } from 'keyboard';
 import { Navigable, NavigateCallbackArgs, navigate } from 'navigate';
 import { clamp, genFitter } from 'utils/math';
+import { Widget } from './base';
 import TEMPLATE from './templates/slider.static.pug';
 
 export interface WidgetSliderEvents {
@@ -15,10 +16,18 @@ export interface WidgetSliderEvents {
 	change: IEventBaseCreateOptions<WidgetSlider>;
 }
 
+export interface WidgetSliderProp {
+	disabled?: boolean;
+	from?: number;
+	to?: number;
+	value?: number;
+	step?: number;
+}
+
 const TRAILING_ZERO = /0+$/;
 const TRAILING_DOT = /\.$/;
 
-export class WidgetSlider extends HTMLElement implements IEventSource<WidgetSliderEvents>, Navigable {
+export class WidgetSlider extends Widget implements IEventSource<WidgetSliderEvents>, Navigable {
 	#inited = false;
 	#events = new Events<WidgetSliderEvents>(['change', 'input']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
@@ -239,6 +248,8 @@ export class WidgetSlider extends HTMLElement implements IEventSource<WidgetSlid
 		this.#updateView(percentage);
 		this.#events.emit(new EventValue('input', { target: this, value: this.#navCurrent }));
 	};
+	//#region Prop
+	_prop?: WidgetSliderProp;
 	// TODO: vertical slider
 }
 

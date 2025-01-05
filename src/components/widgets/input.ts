@@ -1,5 +1,5 @@
 import { UIContent, UIContentCreateOptions } from 'components/content';
-import { configs } from 'configs';
+import { LocaleOptions, configs } from 'configs';
 import { events } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
@@ -10,6 +10,7 @@ import { insertAt, toArray } from 'utils/array';
 import { $apply, $div, $new, DOMContents } from 'utils/dom';
 import { clamp, wrapInRange } from 'utils/math';
 import { AnimationFrameController, sleep } from 'utils/timer';
+import { Widget } from './base';
 import { WidgetBtn } from './btn';
 import { WidgetLang } from './lang';
 import TEMPLATE from './templates/input.static.pug';
@@ -30,6 +31,15 @@ export interface WidgetInputEvents<
 		string | undefined
 	>;
 	action: IEventCustomCreateOptions<Target, string>;
+}
+
+export interface WidgetInputProp<Value extends WidgetInputValue> {
+	value?: Value;
+	placeholder?: string;
+	placeholderLocaleOptions?: LocaleOptions;
+	disabled?: boolean;
+	readOnly?: boolean;
+	invalid?: boolean;
 }
 
 const EVENTS = Symbol();
@@ -401,7 +411,7 @@ class WidgetInputAction<Value extends WidgetInputValue, Input extends WidgetInpu
 
 //#region Input
 export class WidgetInput<Value extends WidgetInputValue>
-	extends HTMLElement
+	extends Widget
 	implements IEventSource<WidgetInputEvents<Value>>, Navigable
 {
 	#inited = false;
@@ -568,10 +578,14 @@ export class WidgetInput<Value extends WidgetInputValue>
 	get nonNavigable() {
 		return this.disabled;
 	}
+	//#region Prop
+	_prop?: WidgetInputProp<Value>;
 }
 
 //#region Text
+export interface WidgetTextProp extends WidgetInputProp<string> {}
 export class WidgetText extends WidgetInput<string> implements Navigable {
+	declare _prop?: WidgetTextProp;
 	#autoFill?: WidgetInputAutoFill<string>;
 	#actionsLeftElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[left]')!;
 	#actionsRightElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[right]')!;
@@ -629,7 +643,11 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 customElements.define('w-text', WidgetText);
 
 //#region Password
+export interface WidgetPasswordProp extends WidgetInputProp<string> {
+	passwordVisibility?: boolean;
+}
 export class WidgetPassword extends WidgetInput<string> implements Navigable {
+	declare _prop?: WidgetPasswordProp;
 	#autoFill?: WidgetInputAutoFill<string>;
 	#actionsLeftElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[left]')!;
 	#actionsRightElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[right]')!;
@@ -694,6 +712,7 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 
 customElements.define('w-password', WidgetPassword);
 
+//#region Number
 /**
  * @returns
  * - number: complete calculation
@@ -701,8 +720,16 @@ customElements.define('w-password', WidgetPassword);
  */
 type WidgetNumberExpressionCalculator = (expression: string) => number | null;
 
-//#region Number
+export interface WidgetNumberProp extends WidgetInputProp<number> {
+	expression?: WidgetNumberExpressionCalculator | undefined;
+	min?: number;
+	max?: number;
+	step?: number;
+	default?: number;
+}
+
 export class WidgetNumber extends WidgetInput<number> implements Navigable {
+	declare _prop?: WidgetNumberProp;
 	#inited = false;
 	#valueChanged = false;
 	#autoFill?: WidgetInputAutoFill<number>;
@@ -902,7 +929,11 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 customElements.define('w-number', WidgetNumber);
 
 //#region Text Field
+export interface WidgetTextFieldProp extends WidgetInputProp<string> {
+	autoHeight?: boolean;
+}
 export class WidgetTextField extends WidgetInput<string> implements Navigable {
+	declare _prop?: WidgetTextFieldProp;
 	#field = $div({ class: ['w-input', 'w-text-field'] });
 	constructor() {
 		super();

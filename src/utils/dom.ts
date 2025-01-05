@@ -1,3 +1,4 @@
+import { Widget } from 'components/widgets/base';
 import { Arrayable, toArray } from './array';
 import { Color } from './color';
 import { range } from './math';
@@ -15,7 +16,7 @@ export type DOMEventMap<E extends HTMLElement = HTMLElement> = {
 	[K in keyof HTMLElementEventMap]?: (this: E, ev: HTMLElementEventMap[K]) => any;
 };
 
-export interface DOMApplyOptions<E extends HTMLElement = HTMLElement> {
+export interface DOMApplyOptions<E extends Widget = Widget> {
 	class?: Arrayable<string>;
 	id?: string;
 	attr?: { [key: string]: any };
@@ -27,6 +28,7 @@ export interface DOMApplyOptions<E extends HTMLElement = HTMLElement> {
 	 */
 	html?: string;
 	event?: DOMEventMap<E>;
+	prop?: E['_prop'];
 }
 
 function applyBasic<E extends HTMLElement = HTMLElement>(target: E, options: DOMApplyOptions<E>) {
@@ -84,10 +86,18 @@ function applyContent<E extends HTMLElement = HTMLElement>(target: E, options: D
 		}
 	}
 }
+function applyProp<E extends Widget = Widget>(target: E, options: DOMApplyOptions<E>) {
+	if (!options.prop) return;
+	for (const [key, value] of Object.entries(options.prop)) {
+		(target as any)[key] = value;
+	}
+}
+
 export function $apply<E extends HTMLElement = HTMLElement>(target: E, options: DOMApplyOptions<E>) {
 	applyBasic(target, options);
 	applyStyle(target, options);
 	applyContent(target, options);
+	applyProp(target, options);
 }
 
 export function $<E extends HTMLElement = HTMLElement>(selector: string): E | null;

@@ -9,17 +9,30 @@ import { $applyColor } from 'utils/dom';
 import { runSync } from 'utils/function';
 import { clamp } from 'utils/math';
 import { AnimationFrameController } from 'utils/timer';
+import { Widget } from './base';
 import TEMPLATE from './templates/btn.static.pug';
 
 export interface WidgetBtnEvents {
 	active: IEventBaseCreateOptions<WidgetBtn>;
 }
 
+export interface WidgetBtnProp {
+	content?: UIContent | string | UIContentCreateOptions;
+	disabled?: boolean;
+	state?: WidgetBtnState;
+	flat?: boolean;
+	rounded?: boolean;
+	delay?: number;
+	progress?: number;
+	checked?: boolean;
+	color?: Color | undefined;
+}
+
 export type WidgetBtnState = '' | 'primary' | 'danger' | 'toggle';
 
 const STATES: WidgetBtnState[] = ['', 'primary', 'danger', 'toggle'];
 
-export class WidgetBtn extends HTMLElement implements IEventSource<WidgetBtnEvents>, Navigable {
+export class WidgetBtn extends Widget implements IEventSource<WidgetBtnEvents>, Navigable {
 	#inited = false;
 	#events = new Events<WidgetBtnEvents>(['active']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
@@ -230,6 +243,8 @@ export class WidgetBtn extends HTMLElement implements IEventSource<WidgetBtnEven
 	get nonNavigable() {
 		return this.disabled;
 	}
+	//#region Prop
+	_prop?: WidgetBtnProp;
 }
 
 customElements.define('w-btn', WidgetBtn);

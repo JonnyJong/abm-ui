@@ -1,8 +1,14 @@
 import { configs } from 'configs';
 import { icons } from 'configs/icon';
 import { $div } from 'utils/dom';
+import { Widget } from './base';
 
-export class WidgetIcon extends HTMLElement {
+export interface WidgetIconProp {
+	namespace?: string;
+	key?: string;
+}
+
+export class WidgetIcon extends Widget {
 	#inited = false;
 	#shadowRoot = this.attachShadow({ mode: 'open' });
 	#element = $div();
@@ -59,6 +65,8 @@ export class WidgetIcon extends HTMLElement {
 		icon.key = this.key;
 		return icon;
 	}
+	//#region Prop
+	_prop?: WidgetIconProp;
 }
 
 customElements.define('w-icon', WidgetIcon);

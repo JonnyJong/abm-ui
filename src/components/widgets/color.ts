@@ -7,12 +7,19 @@ import { Navigable } from 'navigate';
 import { Color } from 'utils/color';
 import { $div } from 'utils/dom';
 import { runSync } from 'utils/function';
+import { Widget } from './base';
 
 export interface WidgetColorEvents {
 	change: IEventBaseCreateOptions<WidgetColor>;
 }
 
-export class WidgetColor extends HTMLElement implements IEventSource<WidgetColorEvents>, Navigable {
+export interface WidgetColorProp {
+	value?: Color | string;
+	readOnly?: boolean;
+	alpha?: boolean;
+}
+
+export class WidgetColor extends Widget implements IEventSource<WidgetColorEvents>, Navigable {
 	#inited = false;
 	#events = new Events<WidgetColorEvents>(['change']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
@@ -108,6 +115,8 @@ export class WidgetColor extends HTMLElement implements IEventSource<WidgetColor
 	get nonNavigable() {
 		return this.readOnly;
 	}
+	//#region Prop
+	_prop?: WidgetColorProp;
 }
 
 customElements.define('w-color', WidgetColor);

@@ -3,13 +3,19 @@ import { events } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { Navigable } from 'navigate';
+import { Widget } from './base';
 import TEMPLATE from './templates/checkbox.static.pug';
 
 export interface WidgetCheckboxEvents {
 	change: IEventBaseCreateOptions<WidgetCheckbox>;
 }
 
-export class WidgetCheckbox extends HTMLElement implements IEventSource<WidgetCheckboxEvents>, Navigable {
+export interface WidgetCheckboxProp {
+	checked?: boolean;
+	disabled?: boolean;
+}
+
+export class WidgetCheckbox extends Widget implements IEventSource<WidgetCheckboxEvents>, Navigable {
 	#inited = false;
 	#events = new Events<WidgetCheckboxEvents>(['change']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
@@ -69,6 +75,8 @@ export class WidgetCheckbox extends HTMLElement implements IEventSource<WidgetCh
 	get nonNavigable() {
 		return this.disabled;
 	}
+	//#region Prop
+	_prop?: WidgetCheckboxProp;
 }
 
 customElements.define('w-checkbox', WidgetCheckbox);
