@@ -762,10 +762,10 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 					this.#updateInput();
 					break;
 				case 'increase':
-					this.value += this.#step ? this.#step : 1;
+					this.#increase();
 					break;
 				case 'decrease':
-					this.value -= this.#step ? this.#step : 1;
+					this.#decrease();
 					break;
 				default:
 					return;
@@ -856,6 +856,18 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 			this[INPUT_ELEMENT].value = String(value);
 		}
 		this.#updateAction(value);
+	}
+	#increase() {
+		let from = this.value;
+		if (!Number.isFinite(from)) from = this.#min;
+		if (!Number.isFinite(from)) from = 0;
+		this.value = from + (this.#step ? this.#step : 1);
+	}
+	#decrease() {
+		let from = this.value;
+		if (!Number.isFinite(from)) from = this.#max;
+		if (!Number.isFinite(from)) from = 0;
+		this.value = from - (this.#step ? this.#step : 1);
 	}
 	#updateAction(value: number) {
 		const increase = this.#actionsRight.get(0);
