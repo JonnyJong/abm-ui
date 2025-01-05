@@ -871,7 +871,10 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 			this[INPUT_ELEMENT].value = '';
 			return;
 		}
-		this[INPUT_ELEMENT].value = String(this.#fitValue(value));
+		value = this.#fitValue(value);
+		if (this.#expressionCalc) this[INPUT_ELEMENT].value = String(value);
+		else if (Number.isFinite(value)) this[INPUT_ELEMENT].valueAsNumber = value;
+		else this[INPUT_ELEMENT].value = '';
 		this.#updateAction(value);
 	}
 	#min = -Infinity;
