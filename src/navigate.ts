@@ -60,10 +60,10 @@ function getDistance(rectA: Rect, rectB: Rect): number {
 	const length = vec.length;
 
 	if (vec.x === 0) {
-		return vec.y;
+		return vec.y - heightA / 2 - heightB / 2;
 	}
 	if (vec.y === 0) {
-		return vec.x;
+		return vec.x - widthA / 2 - widthB / 2;
 	}
 
 	const sin = vec.y / length;
@@ -88,19 +88,27 @@ function NearestFinder(begin: Rect, direction: Direction4) {
 	};
 }
 
-function navChildFilter(v: Element) {
-	return !(v as Navigable).nonNavigable && (v.clientHeight !== 0 || v.clientWidth !== 0);
-}
-
 function NavItemFilter(from: any) {
+	const SAME = (item: Element) => item === from;
+	const NAVIGABLE = (item: Element) =>
+		!(item as Navigable).nonNavigable && (item.clientHeight !== 0 || item.clientWidth !== 0);
+	const IS_NAV_ITEM = (item: Element) => item.hasAttribute('ui-nav');
+	// Group Check
+	const IS_GROUP_DIRECT = (item: Element) => (item as Navigable).navChildern?.some(NAVIGABLE);
+	const IS_GROUP_A = (item: Element) => [...item.querySelectorAll('[ui-nav]')].some(NAVIGABLE);
+	const IS_GROUP_B = (item: Element) =>
+		[...item.querySelectorAll<Navigable>('[ui-nav-group]')].some((group) => group.navChildern?.some(NAVIGABLE));
+
 	return function filter(item: Element) {
-		return (
-			item !== from &&
-			!(item as Navigable).nonNavigable &&
-			(item.hasAttribute('ui-nav') ||
-				(item as Navigable).navChildern?.some(navChildFilter) ||
-				[...item.querySelectorAll('[ui-nav]')].some(navChildFilter))
-		);
+		if (SAME(item)) return false;
+		if (!NAVIGABLE(item)) return false;
+		if (IS_NAV_ITEM(item)) return true;
+
+		if (IS_GROUP_DIRECT(item)) return true;
+		if (IS_GROUP_A(item)) return true;
+		if (IS_GROUP_B(item)) return true;
+
+		return false;
 	};
 }
 
@@ -188,11 +196,11 @@ class Navigate implements IEventSource<NavigateEvents> {
 		if (!checkAvailability(current, root)) current = null;
 
 		let next = searchInwards(
-			current?.navParent ?? (current?.parentNode as HTMLElement) ?? this.#root,
+			current?.navParent ?? (current?.parentNode as HTMLElement) ?? root,
 			direction,
 			current ?? { left: this.#position[0], top: this.#position[1], width: 0, height: 0 },
 		);
-		if (!next && current) next = searchOutwards(this.#root, direction, current.getBoundingClientRect(), current);
+		if (!next && current) next = searchOutwards(root, direction, current.getBoundingClientRect(), current);
 		if (!next) return;
 
 		this.#current = next;

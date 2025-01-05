@@ -106,6 +106,7 @@ export class WidgetNav<ID extends string = string>
 		this.#observer.observe(this);
 	}
 	connectedCallback() {
+		this.toggleAttribute('ui-nav-group', true);
 		if (this.#inited) return;
 		this.#inited = true;
 	}
