@@ -80,16 +80,18 @@ function applyContent<E extends HTMLElement = HTMLElement>(target: E, options: D
 	} else if (options.content !== undefined) {
 		target.replaceChildren(...toArray(options.content));
 	}
-	if (options.event !== undefined) {
-		for (const [key, value] of Object.entries(options.event)) {
-			target.addEventListener(key as keyof HTMLElementEventMap, value as EventListenerOrEventListenerObject);
-		}
-	}
 }
 function applyProp<E extends Widget = Widget>(target: E, options: DOMApplyOptions<E>) {
 	if (!options.prop) return;
 	for (const [key, value] of Object.entries(options.prop)) {
 		(target as any)[key] = value;
+	}
+}
+function applyEvent<E extends Widget = Widget>(target: E, options: DOMApplyOptions<E>) {
+	if (options.event !== undefined) {
+		for (const [key, value] of Object.entries(options.event)) {
+			target.addEventListener(key as keyof HTMLElementEventMap, value as EventListenerOrEventListenerObject);
+		}
 	}
 }
 
@@ -98,6 +100,7 @@ export function $apply<E extends HTMLElement = HTMLElement>(target: E, options: 
 	applyStyle(target, options);
 	applyContent(target, options);
 	applyProp(target, options);
+	applyEvent(target, options);
 }
 
 export function $<E extends HTMLElement = HTMLElement>(selector: string): E | null;
