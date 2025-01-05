@@ -1,4 +1,4 @@
-import { wrapInRange } from './math';
+import { range, wrapInRange } from './math';
 
 export type Arrayable<T> = T | T[];
 
@@ -18,4 +18,13 @@ export function equalsSet(a: Set<any>, b: Set<any>): boolean {
 		if (!pool.delete(i)) return false;
 	}
 	return pool.size === 0;
+}
+
+export function shuffle<T>(array: T[]): T[] {
+	for (const i of range(array.length)) {
+		const j = Math.floor(Math.random() * array.length);
+		if (i === j) continue;
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
 }
