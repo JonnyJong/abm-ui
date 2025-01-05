@@ -855,8 +855,13 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 		} else {
 			this[INPUT_ELEMENT].value = String(value);
 		}
-		this.#actionsRight.get(0).disabled = value + (this.#step ? this.#step : 1) > this.#max;
-		this.#actionsRight.get(1).disabled = value - (this.#step ? this.#step : 1) < this.#min;
+		this.#updateAction(value);
+	}
+	#updateAction(value: number) {
+		const increase = this.#actionsRight.get(0);
+		const decrease = this.#actionsRight.get(1);
+		if (increase) increase.disabled = value + (this.#step ? this.#step : 1) > this.#max;
+		if (decrease) decrease.disabled = value - (this.#step ? this.#step : 1) < this.#min;
 	}
 	get value() {
 		return this.#getValue();
@@ -867,8 +872,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 			return;
 		}
 		this[INPUT_ELEMENT].value = String(this.#fitValue(value));
-		this.#actionsRight.get(0).disabled = value + (this.#step ? this.#step : 1) > this.#max;
-		this.#actionsRight.get(1).disabled = value - (this.#step ? this.#step : 1) < this.#min;
+		this.#updateAction(value);
 	}
 	#min = -Infinity;
 	get min() {
