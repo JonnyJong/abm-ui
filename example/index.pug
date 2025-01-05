@@ -71,31 +71,37 @@ html
 				w-btn#dev-msg(dev="toggle" state="toggle") Toggle Msg Panel
 		h2 Widgets
 		h3 Button
-		div#dev-btn(ui-layout="flow-column" ui-panel="large")
+		div.dev-panel#dev-btn(ui-panel="large")
 		h3 Input
 		h4 Text Input
-		div#dev-text(ui-layout="flow-column" ui-panel="large")
+		div#dev-text(ui-layout="flow" ui-panel="large")
 		h4 Password Input
-		div#dev-psw(ui-layout="flow-column" ui-panel="large")
+		div#dev-psw(ui-layout="flow" ui-panel="large")
 		h4 Number Input
-		div#dev-num(ui-layout="flow-column" ui-panel="large")
+		div#dev-num(ui-layout="flow" ui-panel="large")
 		h4 Text Field
 		div(ui-panel="large")
 			w-text-field
 			w-text-field(autoheight style="max-height:60vh;min-height:64px;" placeholder="This text field will auto set height")
 		h3 Switch
-		div#dev-switch(ui-layout="flow-column" ui-panel="large")
+		div#dev-switch(ui-layout="flow" ui-panel="large")
 		h3 Select
-		div#dev-select(ui-layout="flow-column" ui-panel="large")
+		div#dev-select(ui-layout="flow" ui-panel="large")
 		h3 Progress
-		div#dev-progress(ui-layout="flow-column" ui-panel="large")
+		div(ui-layout="flow-column" ui-panel="large")
+			#dev-progress-bar(ui-layout="flow")
+			#dev-progress-ring(ui-layout="flow")
 		h3 Checkbox
-		div#dev-checkbox(ui-layout="flow-column" ui-panel="large")
+		div#dev-checkbox(ui-layout="flow" ui-panel="large")
 		h3 Slider
-		div#dev-slider(ui-layout="flow-column" ui-panel="large")
+		div#dev-slider(ui-layout="flow" ui-panel="large")
 		h3 Nav
-		div#dev-nav(ui-layout="flow-column" ui-panel="large")
+		div#dev-nav(ui-layout="flow" ui-panel="large")
 		h3 Color
-		div#dev-color(ui-layout="flow-column" ui-panel="large")
+		div#dev-color(ui-layout="flow" ui-panel="large")
 		style.
 			body:not(:has(.ui-preset-fullscreen)) { overflow: hidden overlay; }
+			.dev-panel { display: flex; gap: 8px; }
+			@media screen and (max-width: 700px) {
+				.dev-panel { flex-direction: column-reverse; }
+			}
