@@ -1,6 +1,6 @@
 {
 	"name": "abm-ui",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "The UI lib from ABM",
 	"main": "dist/index.cjs.js",
 	"module": "dist/index.esm.js",
@@ -31,10 +31,10 @@
 		"@biomejs/biome": "1.9.4",
 		"@rollup/plugin-typescript": "12.1.2",
 		"@types/jest": "29.5.14",
-		"concurrently": "9.1.0",
+		"concurrently": "9.1.2",
 		"jest": "29.7.0",
 		"jest-environment-jsdom": "29.7.0",
-		"rollup": "4.28.1",
+		"rollup": "4.30.0",
 		"rollup-plugin-pug": "1.1.1",
 		"stylus": "0.64.0",
 		"ts-jest": "29.2.5",
@@ -43,6 +43,6 @@
 		"typescript": "5.7.2"
 	},
 	"dependencies": {
-		"abm-utils": "^0.0.3"
+		"abm-utils": "0.0.3"
 	}
 }

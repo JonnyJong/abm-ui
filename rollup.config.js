@@ -10,6 +10,9 @@ module.exports = [
 				format: 'iife',
 				name: 'UI',
 				sourcemap: true,
+				globals: {
+					'abm-utils': 'utils',
+				},
 			},
 			{
         file: './dist/index.cjs.js',
@@ -28,6 +31,6 @@ module.exports = [
       },
 		],
 		plugins: [pug(), ts()],
-		external: ['@types/node'],
+		external: ['@types/node', 'abm-utils'],
 	},
 ];
