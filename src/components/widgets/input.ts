@@ -595,14 +595,22 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 		super();
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable, this[INPUT_ELEMENT]);
+			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.on('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = true;
+			keyboard.preventDefaultWebBehavior = false;
+			keyboard.on('shortcut', this.#shortcutHandler);
+			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
 			keyboard.off('aliasPress', this.#aliasPressHandler);
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
 			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.off('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = false;
+			keyboard.preventDefaultWebBehavior = true;
+			keyboard.off('shortcut', this.#shortcutHandler);
+			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 	}
 	get autoFill(): WidgetInputAutoFill<string> {
@@ -638,6 +646,14 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 	get navChildern() {
 		return [...this.#actionsLeft.items, ...this.#actionsRight.items].map((v) => v[ACTION_BTN]);
 	}
+	#keyDownHandler = (event: KeyboardEvent) => {
+		if (event.code === 'Tab') event.preventDefault();
+	};
+	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+		console.log(event.key);
+		if (event.key === 'ui.navPrev') navigate.nav('prev');
+		else if (event.key === 'ui.navNext') navigate.nav('next');
+	};
 }
 
 customElements.define('w-text', WidgetText);
@@ -658,14 +674,22 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 		this[INPUT_ELEMENT].type = 'password';
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable, this[INPUT_ELEMENT]);
+			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.on('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = true;
+			keyboard.preventDefaultWebBehavior = false;
+			keyboard.on('shortcut', this.#shortcutHandler);
+			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
 			keyboard.off('aliasPress', this.#aliasPressHandler);
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
 			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.off('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = false;
+			keyboard.preventDefaultWebBehavior = true;
+			keyboard.off('shortcut', this.#shortcutHandler);
+			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 	}
 	get autoFill(): WidgetInputAutoFill<string> {
@@ -708,6 +732,13 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 	get navChildern() {
 		return [...this.#actionsLeft.items, ...this.#actionsRight.items].map((v) => v[ACTION_BTN]);
 	}
+	#keyDownHandler = (event: KeyboardEvent) => {
+		if (event.code === 'Tab') event.preventDefault();
+	};
+	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+		if (event.key === 'ui.navPrev') navigate.nav('prev');
+		else if (event.key === 'ui.navNext') navigate.nav('next');
+	};
 }
 
 customElements.define('w-password', WidgetPassword);
@@ -746,8 +777,12 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 		this[INPUT_ELEMENT].type = 'number';
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable, this[INPUT_ELEMENT]);
+			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.on('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = true;
+			keyboard.preventDefaultWebBehavior = false;
+			keyboard.on('shortcut', this.#shortcutHandler);
+			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
 			keyboard.off('aliasPress', this.#aliasPressHandler);
@@ -755,6 +790,10 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
 			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.off('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = false;
+			keyboard.preventDefaultWebBehavior = true;
+			keyboard.off('shortcut', this.#shortcutHandler);
+			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 		this.on('action', ({ details }) => {
 			switch (details) {
@@ -943,6 +982,13 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 	get navChildern() {
 		return [...this.#actionsLeft.items, ...this.#actionsRight.items].map((v) => v[ACTION_BTN]);
 	}
+	#keyDownHandler = (event: KeyboardEvent) => {
+		if (event.code === 'Tab') event.preventDefault();
+	};
+	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+		if (event.key === 'ui.navPrev') navigate.nav('prev');
+		else if (event.key === 'ui.navNext') navigate.nav('next');
+	};
 }
 
 customElements.define('w-number', WidgetNumber);
@@ -964,13 +1010,21 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 		this[INPUT_ELEMENT].addEventListener('keyup', this.#updateHeight);
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable, this[INPUT_ELEMENT]);
+			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.on('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = true;
+			keyboard.preventDefaultWebBehavior = false;
+			keyboard.on('shortcut', this.#shortcutHandler);
+			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
 			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
 			navigate.off('cancel', this.#navCancelHandler);
+			navigate.blockKeyboard = false;
+			keyboard.preventDefaultWebBehavior = true;
+			keyboard.off('shortcut', this.#shortcutHandler);
+			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 	}
 	#updateHeight = async () => {
@@ -1012,6 +1066,13 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 	};
 	#navCancelHandler = () => {
 		this[INPUT_ELEMENT].blur();
+	};
+	#keyDownHandler = (event: KeyboardEvent) => {
+		if (event.code === 'Tab') event.preventDefault();
+	};
+	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+		if (event.key === 'ui.navPrev') navigate.nav('prev');
+		else if (event.key === 'ui.navNext') navigate.nav('next');
 	};
 }
 
