@@ -257,11 +257,12 @@ class Navigate implements IEventSource<NavigateEvents> {
 	#update = () => {
 		const root = this.#root;
 		let current = this.#current;
-		if (!checkAvailability(current, root)) current = null;
+		if (!checkAvailability(current, root) || current?.nonNavigable) current = null;
 		const lock = this.#lock;
 		if (lock) current = lock;
 
 		if (!current) {
+			this.#current = null;
 			this.#frameController.stop();
 			this.#indicator.style.opacity = '0';
 			document.body.style.cursor = '';
