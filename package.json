@@ -23,10 +23,8 @@
 		"lint": "biome check",
 		"test": "jest",
 		"test-coverage": "jest --coverage",
-		"compile:example": "pug ./example/index.pug",
 		"watch:ts": "rollup -c && (concurrently \"rollup -c -w\" \"tsc-alias -w\")",
 		"watch:style": "(concurrently \"stylus -w -c ./style/main.styl -o ./dist/style.css\" \"stylus -w -c ./style/var.styl -o ./dist/var.css\")",
-		"watch:example": "pug -w ./example/index.pug",
 		"watch": "rollup -c && (concurrently \"rollup -c -w\" \"tsc-alias -w\" \"stylus -w -c ./style/main.styl -o ./dist/style.css\" \"stylus -w -c ./style/var.styl -o ./dist/var.css\")"
 	},
 	"devDependencies": {
