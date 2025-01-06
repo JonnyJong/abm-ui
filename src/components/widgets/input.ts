@@ -1045,6 +1045,7 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 	}
 	set autoHeight(value: boolean) {
 		this.toggleAttribute('autoheight', value);
+		if (value) this.#updateHeight();
 	}
 	get value() {
 		return this[INPUT_ELEMENT].value;
