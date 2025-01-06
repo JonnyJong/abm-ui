@@ -241,6 +241,14 @@ const KEYS_ALLOW: KeysAllow[] = [
 	'NumpadDecimal',
 ];
 
+const DEFAULT_WEB_BEHAVIOR_RELATED_BUTTONS = new Set<KeysAllow>([
+	'ArrowUp',
+	'ArrowRight',
+	'ArrowDown',
+	'ArrowLeft',
+	'Space',
+]);
+
 export type KeyBindItem = Set<KeysAllow>;
 export type KeyBindGroup = KeyBindItem[];
 export type KeyBindMap = {
@@ -494,7 +502,10 @@ class KeyboardManager implements IEventSource<KeyboardEvents> {
 		return new KeyBinder();
 	}
 	//#region Event
+	preventDefaultWebBehavior = true;
 	#keyDownHandler = (event: KeyboardEvent) => {
+		if (this.preventDefaultWebBehavior && DEFAULT_WEB_BEHAVIOR_RELATED_BUTTONS.has(event.code as any))
+			event.preventDefault();
 		if (this[BINDING]) return;
 		if (event.isComposing) return;
 		if (!KEYS_ALLOW.includes(event.code as any)) return;
