@@ -38,6 +38,8 @@ const DEFAULT_ALIAS_MAP: AliasMap = {
 	'ui.right': new Set(['ArrowRight', 'KeyD']),
 	'ui.down': new Set(['ArrowDown', 'KeyS']),
 	'ui.left': new Set(['ArrowLeft', 'KeyA']),
+	'ui.selectMulti': new Set(['ControlLeft', 'ControlRight']),
+	'ui.selectRange': new Set(['ShiftLeft', 'ShiftRight']),
 };
 
 export type KeysAllow =

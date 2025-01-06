@@ -46,6 +46,7 @@ export * from 'components/widgets/checkbox';
 export * from 'components/widgets/slider';
 export * from 'components/widgets/nav';
 export * from 'components/widgets/color';
+export * from 'components/widgets/list';
 
 // HACK: prevent default menu behavier
 window.addEventListener('contextmenu', (ev) => ev.preventDefault());

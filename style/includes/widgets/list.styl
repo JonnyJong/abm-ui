@@ -1,2 +1,21 @@
 w-list
+	position relative
 	display block
+	// overflow hidden
+	transition .3s height
+	&>*
+		position absolute
+		display block
+		width 100%
+		transition .3s top, .1s opacity
+	&:has(.w-list-draing)
+		&>*:not(.w-list-draing)
+			opacity .7
+
+.w-list-draing
+	z-index 10
+	transition none
+
+.w-list-filtered
+	opacity 0
+	pointer-events none

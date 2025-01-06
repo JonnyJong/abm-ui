@@ -10,6 +10,7 @@ import { widgetBtn } from './includes/widgets/btn';
 import { widgetCheckbox } from './includes/widgets/checkbox';
 import { widgetColor } from './includes/widgets/color';
 import { widgetInput } from './includes/widgets/input';
+import { widgetList } from './includes/widgets/list';
 import { widgetNav } from './includes/widgets/nav';
 import { widgetProgress } from './includes/widgets/progress';
 import { widgetSelect } from './includes/widgets/select';
@@ -37,6 +38,7 @@ const DICT: Record<string, UIDefaultDict> & Record<string, Record<string, string
 		// Other
 		'dev.properties': '属性',
 		'dev.events': '事件',
+		'dev.ops': '操作',
 	},
 	en: {
 		// Basic
@@ -54,6 +56,7 @@ const DICT: Record<string, UIDefaultDict> & Record<string, Record<string, string
 		// Other
 		'dev.properties': 'Properties',
 		'dev.events': 'Events',
+		'dev.ops': 'Operations',
 	},
 };
 const perferLanguage = UI.configs.locale.perfers[0].split('-')[0];
@@ -83,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	widgetSlider();
 	widgetNav();
 	widgetColor();
+	widgetList();
 	//#region Components
 	initDialog();
 	initMsg();

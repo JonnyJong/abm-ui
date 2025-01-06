@@ -182,7 +182,7 @@ class PropEnum implements Prop {
 		this.#element.options = options.options.map((v) => {
 			return {
 				value: v,
-				label: v,
+				label: String(v),
 			};
 		});
 	}
