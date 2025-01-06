@@ -312,10 +312,10 @@ export class WidgetList<Data = any> extends Widget implements IEventSource<Widge
 		clearTimeout(this.#dragTimer);
 		this.#dragTimer = null;
 	}
-	#getCompareTarget(way: 'previousElementSibling' | 'nextElementSibling') {
-		let current = this.#dragTarget?.[way];
+	#getCompareTarget(way: 'previousElementSibling' | 'nextElementSibling', target = this.#dragTarget) {
+		let current = target?.[way];
 		while (current?.classList.contains('w-list-filtered')) {
-			current = current = this.#dragTarget?.[way];
+			current = current = target?.[way];
 		}
 		if (!current) return null;
 		return current as WidgetListItem;
@@ -350,6 +350,15 @@ export class WidgetList<Data = any> extends Widget implements IEventSource<Widge
 		this.#updateView();
 		this.#events.emit(new EventBase('sort', { target: this }));
 	};
+	sortItem(index: number, direction: 'up' | 'down'): boolean {
+		const target = this.children[index] as HTMLElement;
+		if (!target) return false;
+		const dest = this.#getCompareTarget(direction === 'up' ? 'previousElementSibling' : 'nextElementSibling', target);
+		if (!dest) return false;
+		target[direction === 'up' ? 'after' : 'before'](dest);
+		this.#updateView();
+		return true;
+	}
 	//#region Event
 	on<Type extends keyof WidgetListEvents>(type: Type, handler: EventHandler<Type, WidgetListEvents[Type], any>): void {
 		this.#events.on(type, handler);
