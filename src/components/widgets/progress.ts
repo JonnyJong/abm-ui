@@ -1,8 +1,8 @@
+import { Color } from 'abm-utils/color';
+import { runSync } from 'abm-utils/function';
+import { clamp } from 'abm-utils/math';
 import { configs } from 'configs';
-import { Color } from 'utils/color';
 import { $applyColor, $div } from 'utils/dom';
-import { runSync } from 'utils/function';
-import { clamp } from 'utils/math';
 import { Widget } from './base';
 
 export interface WidgetProgressProp {

@@ -1,11 +1,11 @@
+import { Color } from 'abm-utils/color';
+import { clamp } from 'abm-utils/math';
 import { configs } from 'configs';
 import { events } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventValue, IEventValueCreateOptions } from 'event/api/value';
 import { EventHandler, Events, IEventSource } from 'event/events';
-import { Color } from 'utils/color';
 import { $div, $new } from 'utils/dom';
-import { clamp } from 'utils/math';
 import { Dialog } from './dialog';
 import { WidgetNumber, WidgetText } from './widgets/input';
 import { WidgetLang } from './widgets/lang';

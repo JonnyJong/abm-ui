@@ -1,10 +1,10 @@
+import { toArray } from 'abm-utils/array';
+import { sleep } from 'abm-utils/timer';
 import { IEventBaseCreateOptions } from 'event/api/base';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { navigate } from 'navigate';
-import { toArray } from 'utils/array';
 import { $div, $new, DOMContents } from 'utils/dom';
-import { sleep } from 'utils/timer';
 import { UIContent, UIContentCreateOptions, UIContentEvents } from './content';
 import { WidgetBtn, WidgetBtnState } from './widgets/btn';
 

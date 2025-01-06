@@ -1,7 +1,7 @@
+import { makeURLForceReload } from 'abm-utils/url';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { $new } from 'utils/dom';
-import { makeURLForceReload } from 'utils/url';
 import { icons } from './icon';
 import { locale } from './locale';
 import { theme } from './theme';

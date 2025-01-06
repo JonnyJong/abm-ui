@@ -1,3 +1,4 @@
+import { clamp, genFitter } from 'abm-utils/math';
 import { tooltips } from 'components/tooltips';
 import { configs } from 'configs';
 import { events } from 'event';
@@ -7,7 +8,6 @@ import { EventHandler, Events, IEventSource } from 'event/events';
 import { UIEventSlide } from 'event/ui/slide';
 import { KeyboardEvents, keyboard } from 'keyboard';
 import { Navigable, NavigateCallbackArgs, navigate } from 'navigate';
-import { clamp, genFitter } from 'utils/math';
 import { Widget } from './base';
 import TEMPLATE from './templates/slider.static.pug';
 

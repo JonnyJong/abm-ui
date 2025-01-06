@@ -1,9 +1,9 @@
+import { Vector2 } from 'abm-utils/vector';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventValue, IEventValueCreateOptions } from 'event/api/value';
 import { EventVector, IEventVectorCreateOptions } from 'event/api/vector';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { AnimationFrameController } from 'utils/timer';
-import { Vector2 } from 'utils/vector';
 
 export interface GameControllerRumbleOptions {
 	type: GamepadHapticEffectType;

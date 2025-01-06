@@ -1,13 +1,13 @@
+import { Color } from 'abm-utils';
+import { runSync } from 'abm-utils/function';
+import { clamp } from 'abm-utils/math';
 import { UIContent, UIContentCreateOptions, UIContentEvents } from 'components/content';
 import { configs } from 'configs';
 import { events } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { Navigable } from 'navigate';
-import { Color } from 'utils/color';
 import { $applyColor } from 'utils/dom';
-import { runSync } from 'utils/function';
-import { clamp } from 'utils/math';
 import { AnimationFrameController } from 'utils/timer';
 import { Widget } from './base';
 import TEMPLATE from './templates/btn.static.pug';

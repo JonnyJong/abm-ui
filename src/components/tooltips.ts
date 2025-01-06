@@ -1,5 +1,5 @@
+import { toArray } from 'abm-utils/array';
 import { navigate } from 'navigate';
-import { toArray } from 'utils/array';
 import { $div, $new, $path, DOMContents } from 'utils/dom';
 import { AnimationFrameController } from 'utils/timer';
 import { WidgetLang } from './widgets/lang';

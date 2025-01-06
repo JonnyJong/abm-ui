@@ -1,7 +1,7 @@
+import { Arrayable, toArray } from 'abm-utils/array';
+import { Color } from 'abm-utils/color';
+import { range } from 'abm-utils/math';
 import { Widget } from 'components/widgets/base';
-import { Arrayable, toArray } from './array';
-import { Color } from './color';
-import { range } from './math';
 
 //#region Raw DOM Control
 

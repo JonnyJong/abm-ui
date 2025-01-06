@@ -1,3 +1,6 @@
+import { insertAt, toArray } from 'abm-utils/array';
+import { clamp, wrapInRange } from 'abm-utils/math';
+import { sleep } from 'abm-utils/timer';
 import { UIContent, UIContentCreateOptions } from 'components/content';
 import { LocaleOptions, configs } from 'configs';
 import { events } from 'event';
@@ -6,10 +9,8 @@ import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { KeyboardEvents, keyboard } from 'keyboard';
 import { Navigable, NavigateCallbackArgs, navigate } from 'navigate';
-import { insertAt, toArray } from 'utils/array';
 import { $apply, $div, $new, DOMContents } from 'utils/dom';
-import { clamp, wrapInRange } from 'utils/math';
-import { AnimationFrameController, sleep } from 'utils/timer';
+import { AnimationFrameController } from 'utils/timer';
 import { Widget } from './base';
 import { WidgetBtn } from './btn';
 import { WidgetLang } from './lang';

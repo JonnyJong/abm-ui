@@ -1,4 +1,6 @@
 # abm-ui
+**Important: the abm-ui library is not stable yet**
+
 The UI lib from ABM.
 
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)

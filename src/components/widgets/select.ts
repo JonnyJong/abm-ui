@@ -1,3 +1,5 @@
+import { clamp } from 'abm-utils/math';
+import { sleep } from 'abm-utils/timer';
 import { UIContentText, UIContentTextCreateOptions } from 'components/content';
 import { configs } from 'configs';
 import { events } from 'event';
@@ -6,8 +8,6 @@ import { IEventCustom } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { Navigable, NavigateEvents, navigate } from 'navigate';
 import { $div, $new } from 'utils/dom';
-import { clamp } from 'utils/math';
-import { sleep } from 'utils/timer';
 import { Widget } from './base';
 import { WidgetIcon } from './icon';
 import TEMPLATE from './templates/select.static.pug';

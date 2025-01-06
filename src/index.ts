@@ -2,14 +2,8 @@
 export * from 'configs';
 
 // Utils
-export * from 'utils/array';
-export * from 'utils/color';
 export * from 'utils/dom';
-export * from 'utils/function';
-export * from 'utils/math';
 export * from 'utils/timer';
-export * from 'utils/url';
-export * from 'utils/vector';
 
 // Event
 export * from 'event';

@@ -1,5 +1,5 @@
+import { run } from 'abm-utils/function';
 import { EventBase } from 'event/api/base';
-import { run } from 'utils/function';
 import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export type UIEventSlideState = 'start' | 'move' | 'end';

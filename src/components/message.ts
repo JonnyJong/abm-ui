@@ -1,10 +1,10 @@
+import { toArray } from 'abm-utils/array';
+import { Color } from 'abm-utils/color';
+import { sleep } from 'abm-utils/timer';
 import { configs } from 'configs';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';
-import { toArray } from 'utils/array';
-import { Color } from 'utils/color';
 import { $div, $new, DOMContents } from 'utils/dom';
-import { sleep } from 'utils/timer';
 import { UIContent, UIContentCreateOptions, UIContentEvents } from './content';
 import { WidgetBtn, WidgetBtnState } from './widgets/btn';
 

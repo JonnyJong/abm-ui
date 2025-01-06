@@ -1,12 +1,12 @@
+import { Color } from 'abm-utils/color';
+import { runSync } from 'abm-utils/function';
 import { ColorPicker } from 'components/color-picker';
 import { configs } from 'configs';
 import { events } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { Navigable } from 'navigate';
-import { Color } from 'utils/color';
 import { $div } from 'utils/dom';
-import { runSync } from 'utils/function';
 import { Widget } from './base';
 
 export interface WidgetColorEvents {

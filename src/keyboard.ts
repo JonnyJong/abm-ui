@@ -1,7 +1,7 @@
+import { equalsSet } from 'abm-utils/array';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventKey, IEventKeyCreateOptions } from 'event/api/key';
 import { EventHandler, Events, IEventSource } from 'event/events';
-import { equalsSet } from 'utils/array';
 
 declare global {
 	class KeyboardLayoutMap {

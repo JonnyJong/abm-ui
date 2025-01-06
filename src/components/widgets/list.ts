@@ -1,10 +1,10 @@
+import { range } from 'abm-utils/math';
+import { sleep } from 'abm-utils/timer';
 import { events, UIEventActive, UIEventSlide } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventHandler, Events, IEventSource } from 'event/events';
 import { keyboard } from 'keyboard';
 import { Navigable } from 'navigate';
-import { range } from 'utils/math';
-import { sleep } from 'utils/timer';
 import { Widget } from './base';
 
 export interface WidgetListEvents {
