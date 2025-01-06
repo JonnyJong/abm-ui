@@ -92,6 +92,17 @@ export class UIEventSlideManager implements IUIEventBaseManage<'slide'> {
 		window.removeEventListener('touchmove', this.#touchMoveHandler);
 		window.removeEventListener('touchend', this.#touchEndHandler);
 	}
+	/**
+	 * @param identifier
+	 * * `-2`: Nav
+	 * * `-1`: Mouse
+	 * * `>= 0`: Touch & Pen
+	 */
+	start<Target extends HTMLElement>(target: Target, identifier: number): boolean {
+		if (!(target && this.#subscriptions.has(target)) || this.#activated.has(target)) return false;
+		this.#activate(target, identifier);
+		return true;
+	}
 	cancel<Target extends HTMLElement>(target: Target): boolean {
 		if (!(target && this.#activated.has(target))) return false;
 		this.#deactivate(target);
