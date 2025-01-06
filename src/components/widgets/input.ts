@@ -599,7 +599,7 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
-			keyboard.on('shortcut', this.#shortcutHandler);
+			keyboard.on('shortcutTrigger', this.#shortcutHandler);
 			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
@@ -609,7 +609,7 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;
-			keyboard.off('shortcut', this.#shortcutHandler);
+			keyboard.off('shortcutTrigger', this.#shortcutHandler);
 			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 	}
@@ -649,8 +649,7 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 	#keyDownHandler = (event: KeyboardEvent) => {
 		if (event.code === 'Tab') event.preventDefault();
 	};
-	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
-		console.log(event.key);
+	#shortcutHandler = (event: KeyboardEvents['shortcutTrigger']) => {
 		if (event.key === 'ui.navPrev') navigate.nav('prev');
 		else if (event.key === 'ui.navNext') navigate.nav('next');
 	};
@@ -678,7 +677,7 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
-			keyboard.on('shortcut', this.#shortcutHandler);
+			keyboard.on('shortcutTrigger', this.#shortcutHandler);
 			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
@@ -688,7 +687,7 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;
-			keyboard.off('shortcut', this.#shortcutHandler);
+			keyboard.off('shortcutTrigger', this.#shortcutHandler);
 			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 	}
@@ -735,7 +734,7 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 	#keyDownHandler = (event: KeyboardEvent) => {
 		if (event.code === 'Tab') event.preventDefault();
 	};
-	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+	#shortcutHandler = (event: KeyboardEvents['shortcutTrigger']) => {
 		if (event.key === 'ui.navPrev') navigate.nav('prev');
 		else if (event.key === 'ui.navNext') navigate.nav('next');
 	};
@@ -781,7 +780,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
-			keyboard.on('shortcut', this.#shortcutHandler);
+			keyboard.on('shortcutTrigger', this.#shortcutHandler);
 			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
@@ -792,7 +791,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;
-			keyboard.off('shortcut', this.#shortcutHandler);
+			keyboard.off('shortcutTrigger', this.#shortcutHandler);
 			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 		this.on('action', ({ details }) => {
@@ -985,7 +984,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 	#keyDownHandler = (event: KeyboardEvent) => {
 		if (event.code === 'Tab') event.preventDefault();
 	};
-	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+	#shortcutHandler = (event: KeyboardEvents['shortcutTrigger']) => {
 		if (event.key === 'ui.navPrev') navigate.nav('prev');
 		else if (event.key === 'ui.navNext') navigate.nav('next');
 	};
@@ -1014,7 +1013,7 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
-			keyboard.on('shortcut', this.#shortcutHandler);
+			keyboard.on('shortcutTrigger', this.#shortcutHandler);
 			window.addEventListener('keydown', this.#keyDownHandler);
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
@@ -1023,7 +1022,7 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;
-			keyboard.off('shortcut', this.#shortcutHandler);
+			keyboard.off('shortcutTrigger', this.#shortcutHandler);
 			window.removeEventListener('keydown', this.#keyDownHandler);
 		});
 	}
@@ -1070,7 +1069,7 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 	#keyDownHandler = (event: KeyboardEvent) => {
 		if (event.code === 'Tab') event.preventDefault();
 	};
-	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+	#shortcutHandler = (event: KeyboardEvents['shortcutTrigger']) => {
 		if (event.key === 'ui.navPrev') navigate.nav('prev');
 		else if (event.key === 'ui.navNext') navigate.nav('next');
 	};

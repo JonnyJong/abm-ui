@@ -208,7 +208,7 @@ class Navigate implements IEventSource<NavigateEvents> {
 	constructor() {
 		document.addEventListener('DOMContentLoaded', () => document.body.append(this.#indicator));
 		keyboard.on('aliasTrigger', this.#aliasTriggerHandler);
-		keyboard.on('shortcut', this.#shortcutHandler);
+		keyboard.on('shortcutTrigger', this.#shortcutHandler);
 		this.#controller.on('ls', this.#lsHandler);
 		this.#controller.on('arrow', this.#arrowHandler);
 		window.addEventListener('wheel', this.#stopNavHandler);
@@ -287,7 +287,7 @@ class Navigate implements IEventSource<NavigateEvents> {
 		if (!direction) return;
 		this.nav(direction);
 	};
-	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+	#shortcutHandler = (event: KeyboardEvents['shortcutTrigger']) => {
 		if (this.blockKeyboard) return;
 		if (event.key === 'ui.navPrev') this.nav('prev');
 		else if (event.key === 'ui.navNext') this.nav('next');
