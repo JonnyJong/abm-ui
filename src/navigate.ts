@@ -455,6 +455,7 @@ class Navigate implements IEventSource<NavigateEvents> {
 		const index = this.#stack.findIndex(([r]) => r === root);
 		if (index === -1) return false;
 		this.#stack.splice(index, 1);
+		if (this.#current) this.#frameController.start();
 		return true;
 	}
 }
