@@ -934,6 +934,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 		if (typeof value !== 'number' || isNaN(value)) return;
 		this.#valueChanged = true;
 		this.#min = value;
+		this[INPUT_ELEMENT].min = String(this.#min);
 		this.#updateInput();
 	}
 	#max = Infinity;
@@ -944,6 +945,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 		if (typeof value !== 'number' || isNaN(value)) return;
 		this.#valueChanged = true;
 		this.#max = value;
+		this[INPUT_ELEMENT].max = String(this.#max);
 		this.#updateInput();
 	}
 	#step = 0;
@@ -954,6 +956,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 		if (typeof value !== 'number' || isNaN(value)) return;
 		this.#valueChanged = true;
 		this.#step = Math.max(value, 0);
+		this[INPUT_ELEMENT].step = String(this.#step);
 		this.#updateInput();
 	}
 	#default = 0;
