@@ -594,7 +594,7 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 		super();
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.addLayer(this);
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
@@ -604,7 +604,7 @@ export class WidgetText extends WidgetInput<string> implements Navigable {
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
 			keyboard.off('aliasPress', this.#aliasPressHandler);
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
-			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.rmLayer(this);
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;
@@ -672,7 +672,7 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 		this[INPUT_ELEMENT].type = 'password';
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.addLayer(this);
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
@@ -682,7 +682,7 @@ export class WidgetPassword extends WidgetInput<string> implements Navigable {
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
 			keyboard.off('aliasPress', this.#aliasPressHandler);
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
-			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.rmLayer(this);
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;
@@ -775,7 +775,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 		this[INPUT_ELEMENT].type = 'number';
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.addLayer(this);
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
@@ -786,7 +786,7 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 			keyboard.off('aliasPress', this.#aliasPressHandler);
 			this.#updateInput();
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
-			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.rmLayer(this);
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;
@@ -1011,7 +1011,7 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 		this[INPUT_ELEMENT].addEventListener('keyup', this.#updateHeight);
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
-			navigate.addLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.addLayer(this);
 			navigate.on('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = true;
 			keyboard.preventDefaultWebBehavior = false;
@@ -1020,7 +1020,7 @@ export class WidgetTextField extends WidgetInput<string> implements Navigable {
 		});
 		this[INPUT_ELEMENT].addEventListener('blur', () => {
 			this[EVENTS].emit(new EventBase('confirm', { target: this }));
-			navigate.rmLayer(this[SHADOW_ROOT] as unknown as Navigable);
+			navigate.rmLayer(this);
 			navigate.off('cancel', this.#navCancelHandler);
 			navigate.blockKeyboard = false;
 			keyboard.preventDefaultWebBehavior = true;

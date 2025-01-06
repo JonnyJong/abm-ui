@@ -332,12 +332,16 @@ class Navigate implements IEventSource<NavigateEvents> {
 		this.#events.emit(new EventBase('nav', { target: this }));
 	};
 	#aliasDownHandler = (event: KeyboardEvents['aliasDown']) => {
+		const root = this.#root;
 		const current = this.#current;
 		let type: 'active' | 'cancel' | '' = '';
-		if (!current) return;
 		if (event.key === 'ui.confirm') type = 'active';
 		if (event.key === 'ui.cancel') type = 'cancel';
 		if (!type) return;
+		run<NavigateCallbackArgs>(root.navCallback!, {
+			[type]: true,
+		});
+		if (!current) return;
 		run<NavigateCallbackArgs>(current!.navCallback!, {
 			[type]: true,
 		});
@@ -345,12 +349,16 @@ class Navigate implements IEventSource<NavigateEvents> {
 		this.#events.emit(new EventValue(type, { target: this, value: true }));
 	};
 	#aliasUpHandler = (event: KeyboardEvents['aliasUp']) => {
+		const root = this.#root;
 		const current = this.#current;
 		let type: 'active' | 'cancel' | '' = '';
-		if (!current) return;
 		if (event.key === 'ui.confirm') type = 'active';
 		if (event.key === 'ui.cancel') type = 'cancel';
 		if (!type) return;
+		run<NavigateCallbackArgs>(root.navCallback!, {
+			[type]: false,
+		});
+		if (!current) return;
 		run<NavigateCallbackArgs>(current!.navCallback!, {
 			[type]: false,
 		});
@@ -358,7 +366,11 @@ class Navigate implements IEventSource<NavigateEvents> {
 		this.#events.emit(new EventValue(type, { target: this, value: false }));
 	};
 	#aHandler = () => {
+		const root = this.#root;
 		const current = this.#current;
+		run<NavigateCallbackArgs>(root.navCallback!, {
+			active: this.#controller.a,
+		});
 		if (!current) return;
 		run<NavigateCallbackArgs>(current!.navCallback!, {
 			active: this.#controller.a,
@@ -367,7 +379,11 @@ class Navigate implements IEventSource<NavigateEvents> {
 		this.#events.emit(new EventValue('active', { target: this, value: this.#controller.a }));
 	};
 	#bHandler = () => {
+		const root = this.#root;
 		const current = this.#current;
+		run<NavigateCallbackArgs>(root.navCallback!, {
+			cancel: this.#controller.b,
+		});
 		if (!current) return;
 		run<NavigateCallbackArgs>(current!.navCallback!, {
 			cancel: this.#controller.b,
