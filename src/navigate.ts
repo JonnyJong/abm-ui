@@ -235,7 +235,9 @@ class Navigate implements IEventSource<NavigateEvents> {
 	};
 	#frameController = new AnimationFrameController(this.#update);
 	//#region Event
+	blockKeyboard = false;
 	#aliasTriggerHandler = (event: KeyboardEvents['aliasTrigger']) => {
+		if (this.blockKeyboard) return;
 		const direction = (KEY_ALIAS_DIRECTION_MAP as any)[event.key];
 		if (!direction) return;
 		this.nav(direction);
