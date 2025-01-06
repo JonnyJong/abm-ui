@@ -26,6 +26,11 @@ declare global {
 	}
 }
 
+const DEFAULT_SHORTCUT_MAP: KeyBindMap = {
+	'ui.navNext': [new Set(['Tab'])],
+	'ui.navPrev': [new Set(['Tab', 'ShiftLeft'])],
+};
+
 const DEFAULT_ALIAS_MAP: AliasMap = {
 	'ui.confirm': new Set(['Enter', 'Space']),
 	'ui.cancel': new Set(['Escape']),
@@ -247,6 +252,7 @@ const DEFAULT_WEB_BEHAVIOR_RELATED_BUTTONS = new Set<KeysAllow>([
 	'ArrowDown',
 	'ArrowLeft',
 	'Space',
+	'Tab',
 ]);
 
 export type KeyBindItem = Set<KeysAllow>;
@@ -368,7 +374,7 @@ class KeyboardManager implements IEventSource<KeyboardEvents> {
 		'aliasPress',
 		'aliasTrigger',
 	]);
-	#map: KeyBindMap = {};
+	#map: KeyBindMap = DEFAULT_SHORTCUT_MAP;
 	#aliasMap: AliasMap = DEFAULT_ALIAS_MAP;
 	#activated = new Set();
 	[BINDING] = false;

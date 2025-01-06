@@ -8,7 +8,8 @@ import { run } from 'utils/function';
 import { AnimationFrameController, RepeatingTriggerController } from 'utils/timer';
 import { Direction4, Vec2, Vector2 } from 'utils/vector';
 
-export type NavigateCallbackArgs = [{ direction?: Direction4; active?: boolean; cancel?: boolean }];
+export type NavDirection = Direction4 | 'next' | 'prev';
+export type NavigateCallbackArgs = [{ direction?: NavDirection; active?: boolean; cancel?: boolean }];
 
 export interface Navigable extends HTMLElement {
 	nonNavigable?: boolean;
@@ -74,6 +75,17 @@ function getDistance(rectA: Rect, rectB: Rect): number {
 function isInside([x, y]: Vec2, { top, bottom, left, right }: DOMRect) {
 	return x >= left && x <= right && y >= top && y <= bottom;
 }
+function isContains(parent: Navigable, child: Navigable): boolean {
+	if (parent.contains(child)) return true;
+	const childern = parent.navChildern;
+	if (childern) {
+		for (const c of childern) {
+			if (c.contains(child)) return true;
+		}
+		return false;
+	}
+	return [...parent.querySelectorAll<Navigable>('[ui-nav-group]')].some((p) => isContains(p, child));
+}
 
 function NearestFinder(begin: Rect, direction: Direction4) {
 	const position: Vec2 = [begin.left + begin.width / 2, begin.top + begin.height / 2];
@@ -88,7 +100,7 @@ function NearestFinder(begin: Rect, direction: Direction4) {
 	};
 }
 
-function NavItemFilter(from: any) {
+function NavItemFilter(from?: any) {
 	const SAME = (item: Element) => item === from;
 	const NAVIGABLE = (item: Element) =>
 		!(item as Navigable).nonNavigable && (item.clientHeight !== 0 || item.clientWidth !== 0);
@@ -146,6 +158,32 @@ function searchOutwards(border: HTMLElement, direction: Direction4, rect: Rect, 
 	if (item.hasAttribute('ui-nav')) return item;
 	return searchInwards(item, direction, rect);
 }
+function searchByOrder(root: Navigable, direction: 'next' | 'prev', from?: Navigable | null): Navigable | null {
+	const children = [...(root.navChildern ?? root.children)].filter(NavItemFilter());
+	if (children.length === 0) return null;
+
+	if (direction === 'next') children.reverse();
+	while (from && children.length !== 0) {
+		const last = children.pop() as Navigable;
+		if (!isContains(last, from)) continue;
+		if (last === from) break;
+		children.push(last);
+		break;
+	}
+	if (children.length === 0) return null;
+	children.reverse();
+
+	for (const target of children) {
+		if (target.hasAttribute('ui-nav')) return target as Navigable;
+		const result = searchByOrder(
+			target as Navigable,
+			direction,
+			from && isContains(target as Navigable, from) ? from : null,
+		);
+		if (result) return result;
+	}
+	return null;
+}
 
 function checkAvailability(target?: Navigable | null, perferParent: HTMLElement = document.body): boolean {
 	while (target) {
@@ -170,6 +208,7 @@ class Navigate implements IEventSource<NavigateEvents> {
 	constructor() {
 		document.addEventListener('DOMContentLoaded', () => document.body.append(this.#indicator));
 		keyboard.on('aliasTrigger', this.#aliasTriggerHandler);
+		keyboard.on('shortcut', this.#shortcutHandler);
 		this.#controller.on('ls', this.#lsHandler);
 		this.#controller.on('arrow', this.#arrowHandler);
 		window.addEventListener('wheel', this.#stopNavHandler);
@@ -184,7 +223,7 @@ class Navigate implements IEventSource<NavigateEvents> {
 	 * 导航到下一元素
 	 * Navigate to the next element
 	 */
-	nav(direction: Direction4) {
+	nav(direction: NavDirection) {
 		const root = this.#root;
 		let current = this.#current;
 		if (this.locking) {
@@ -195,12 +234,17 @@ class Navigate implements IEventSource<NavigateEvents> {
 		}
 		if (!checkAvailability(current, root)) current = null;
 
-		let next = searchInwards(
-			current?.navParent ?? (current?.parentNode as HTMLElement) ?? root,
-			direction,
-			current ?? { left: this.#position[0], top: this.#position[1], width: 0, height: 0 },
-		);
-		if (!next && current) next = searchOutwards(root, direction, current.getBoundingClientRect(), current);
+		let next: Navigable | null = null;
+		if (['next', 'prev'].includes(direction)) {
+			next = searchByOrder(root, direction as 'next' | 'prev', current);
+		} else {
+			next = searchInwards(
+				current?.navParent ?? (current?.parentNode as HTMLElement) ?? root,
+				direction as Direction4,
+				current ?? { left: this.#position[0], top: this.#position[1], width: 0, height: 0 },
+			);
+			if (!next && current) next = searchOutwards(root, direction as Direction4, current.getBoundingClientRect(), current);
+		}
 		if (!next) return;
 
 		this.#current = next;
@@ -241,6 +285,11 @@ class Navigate implements IEventSource<NavigateEvents> {
 		const direction = (KEY_ALIAS_DIRECTION_MAP as any)[event.key];
 		if (!direction) return;
 		this.nav(direction);
+	};
+	#shortcutHandler = (event: KeyboardEvents['shortcut']) => {
+		if (this.blockKeyboard) return;
+		if (event.key === 'ui.navPrev') this.nav('prev');
+		else if (event.key === 'ui.navNext') this.nav('next');
 	};
 	#upController = new RepeatingTriggerController(() => this.nav('up'));
 	#rightController = new RepeatingTriggerController(() => this.nav('right'));
