@@ -6,16 +6,27 @@ import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 export class UIEventActive extends EventBase<'active', HTMLElement> implements IUIEventBase<'active'> {
 	#active: boolean;
 	#cancel: boolean;
-	constructor(target: HTMLElement, active: boolean, cancel: boolean) {
+	#pointerId: number;
+	constructor(target: HTMLElement, active: boolean, cancel: boolean, pointerId: number) {
 		super('active', { target });
 		this.#active = active;
 		this.#cancel = cancel;
+		this.#pointerId = pointerId;
 	}
 	get active() {
 		return this.#active;
 	}
 	get cancel() {
 		return this.#cancel;
+	}
+	/**
+	 * @description
+	 * * `-2`: Nav
+	 * * `-1`: Mouse
+	 * * `>= 0`: Touch & Pen
+	 */
+	get pointerId() {
+		return this.#pointerId;
 	}
 }
 
@@ -28,15 +39,15 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 	}
 	#subscriptions: WeakMap<HTMLElement, Set<UIEventActiveHandler>> = new WeakMap();
 	/**
-	 * -2: Nav
-	 * -1: Mouse
-	 * >= 0: Touch & Pen
+	 * * `-2`: Nav
+	 * * `-1`: Mouse
+	 * * `>= 0`: Touch & Pen
 	 */
 	#activated: Map<HTMLElement, number> = new Map();
-	#emit(target: HTMLElement, active: boolean, cancel: boolean) {
+	#emit(target: HTMLElement, active: boolean, cancel: boolean, pointerId: number) {
 		const handlers = this.#subscriptions.get(target);
 		if (!handlers) return;
-		const event = new UIEventActive(target, active, cancel);
+		const event = new UIEventActive(target, active, cancel, pointerId);
 		for (const handler of handlers) {
 			run(handler, event);
 		}
@@ -98,19 +109,19 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		const target = event.currentTarget as HTMLElement;
 		if (!target || this.#activated.has(target)) return;
 		this.#activate(target, -1);
-		this.#emit(target, true, false);
+		this.#emit(target, true, false, -1);
 	};
 	#mouseUpHandler = (event: MouseEvent) => {
 		const target = event.currentTarget as HTMLElement;
 		if (!(target && this.#activated.has(target))) return;
 		this.#deactivate(target);
-		this.#emit(target, false, false);
+		this.#emit(target, false, false, -1);
 	};
 	#mouseLeaveHandler = (event: MouseEvent) => {
 		const target = event.currentTarget as HTMLElement;
 		if (!(target && this.#activated.has(target))) return;
 		this.#deactivate(target);
-		this.#emit(target, false, true);
+		this.#emit(target, false, true, -1);
 	};
 	//#region Touch
 	#touchStart = (event: TouchEvent) => {
@@ -118,7 +129,7 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		if (!target || this.#activated.has(target)) return;
 		event.preventDefault();
 		this.#activate(target, event.changedTouches[0].identifier);
-		this.#emit(target, true, false);
+		this.#emit(target, true, false, event.changedTouches[0].identifier);
 	};
 	#touchEnd = (event: TouchEvent) => {
 		const target = event.currentTarget as HTMLElement;
@@ -126,7 +137,7 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		if (!(target && typeof identifier === 'number')) return;
 		if (![...event.changedTouches].find((touch) => touch.identifier === identifier)) return;
 		this.#deactivate(target);
-		this.#emit(target, false, false);
+		this.#emit(target, false, false, identifier);
 	};
 	#touchMove = (event: TouchEvent) => {
 		const target = event.currentTarget as HTMLElement;
@@ -137,7 +148,7 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		const { left, right, top, bottom } = target.getBoundingClientRect();
 		if (touch.clientX >= left && touch.clientX <= right && touch.clientY >= top && touch.clientY <= bottom) return;
 		this.#deactivate(target);
-		this.#emit(target, false, true);
+		this.#emit(target, false, true, identifier);
 	};
 	//#region Nav
 	#navHandler = () => {
@@ -145,7 +156,7 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		for (const item of [...this.#activated.keys()]) {
 			if (target === item) continue;
 			this.#deactivate(item);
-			this.#emit(item, false, true);
+			this.#emit(item, false, true, -2);
 		}
 	};
 	#activeHandler = (event: NavigateEvents['active']) => {
@@ -156,6 +167,6 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 
 		if (event.value) this.#activate(target, -2);
 		else this.#deactivate(target);
-		this.#emit(target, event.value, false);
+		this.#emit(target, event.value, false, -2);
 	};
 }
