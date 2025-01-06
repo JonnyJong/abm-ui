@@ -103,6 +103,11 @@ export class UIEventActiveManager implements IUIEventBaseManage<'active'> {
 		target.removeEventListener('touchend', this.#touchEnd);
 		target.removeEventListener('touchmove', this.#touchMove);
 	}
+	cancel(target: HTMLElement): boolean {
+		if (!(target && this.#activated.has(target))) return false;
+		this.#deactivate(target);
+		return true;
+	}
 	//#region Mouse
 	#mouseDownHandler = (event: MouseEvent) => {
 		if (event.button !== 0) return;
