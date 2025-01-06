@@ -184,7 +184,7 @@ class Navigate implements IEventSource<NavigateEvents> {
 	 * 导航到下一元素
 	 * Navigate to the next element
 	 */
-	#nav(direction: Direction4) {
+	nav(direction: Direction4) {
 		const root = this.#root;
 		let current = this.#current;
 		if (this.locking) {
@@ -238,12 +238,12 @@ class Navigate implements IEventSource<NavigateEvents> {
 	#aliasTriggerHandler = (event: KeyboardEvents['aliasTrigger']) => {
 		const direction = (KEY_ALIAS_DIRECTION_MAP as any)[event.key];
 		if (!direction) return;
-		this.#nav(direction);
+		this.nav(direction);
 	};
-	#upController = new RepeatingTriggerController(() => this.#nav('up'));
-	#rightController = new RepeatingTriggerController(() => this.#nav('right'));
-	#downController = new RepeatingTriggerController(() => this.#nav('down'));
-	#leftController = new RepeatingTriggerController(() => this.#nav('left'));
+	#upController = new RepeatingTriggerController(() => this.nav('up'));
+	#rightController = new RepeatingTriggerController(() => this.nav('right'));
+	#downController = new RepeatingTriggerController(() => this.nav('down'));
+	#leftController = new RepeatingTriggerController(() => this.nav('left'));
 	#lsHandler = () => {
 		const vec = this.#controller.ls;
 		let direction = vec.direction;
