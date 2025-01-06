@@ -273,6 +273,7 @@ export interface KeyBinderEvents {
 	done: IEventBaseCreateOptions<KeyBinder>;
 }
 
+//#region Binder
 class KeyBinder implements IEventSource<KeyBinderEvents> {
 	#events = new Events<KeyBinderEvents>(['done', 'update']);
 	#binding = true;
@@ -356,12 +357,14 @@ export interface KeyboardEvents {
 	press: IEventKeyCreateOptions<KeyboardManager, KeysAllow>;
 	trigger: IEventKeyCreateOptions<KeyboardManager, KeysAllow>;
 	shortcut: IEventKeyCreateOptions<KeyboardManager, string>;
+	shortcutTrigger: IEventKeyCreateOptions<KeyboardManager, string>;
 	aliasDown: IEventKeyCreateOptions<KeyboardManager, string>;
 	aliasUp: IEventKeyCreateOptions<KeyboardManager, string>;
 	aliasPress: IEventKeyCreateOptions<KeyboardManager, string>;
 	aliasTrigger: IEventKeyCreateOptions<KeyboardManager, string>;
 }
 
+//#region Manager
 class KeyboardManager implements IEventSource<KeyboardEvents> {
 	#events = new Events<KeyboardEvents>([
 		'down',
@@ -369,6 +372,7 @@ class KeyboardManager implements IEventSource<KeyboardEvents> {
 		'press',
 		'trigger',
 		'shortcut',
+		'shortcutTrigger',
 		'aliasDown',
 		'aliasUp',
 		'aliasPress',
@@ -376,16 +380,23 @@ class KeyboardManager implements IEventSource<KeyboardEvents> {
 	]);
 	#map: KeyBindMap = DEFAULT_SHORTCUT_MAP;
 	#aliasMap: AliasMap = DEFAULT_ALIAS_MAP;
-	#activated = new Set();
+	#activated = new Set<KeysAllow>();
 	[BINDING] = false;
 	constructor() {
 		window.addEventListener('keydown', this.#keyDownHandler);
 		window.addEventListener('keyup', this.#keyUpHandler);
 	}
-	#tryShortcut() {
+	#tryShortcut(trigger?: boolean) {
 		FIND_ID: for (const [id, group] of Object.entries(this.#map)) {
 			for (const item of group) {
 				if (!equalsSet(item, this.#activated)) continue;
+				this.#events.emit(
+					new EventKey('shortcutTrigger', {
+						target: this,
+						key: id,
+					}),
+				);
+				if (!trigger) continue FIND_ID;
 				this.#events.emit(
 					new EventKey('shortcut', {
 						target: this,
@@ -526,8 +537,10 @@ class KeyboardManager implements IEventSource<KeyboardEvents> {
 		for (const id of alias) {
 			this.#events.emit(new EventKey('aliasTrigger', { target: this, key: id }));
 		}
-		if (this.#activated.has(event.code)) return;
-		this.#activated.add(event.code);
+		// ShortcutTrigger
+		this.#tryShortcut(true);
+		if (this.#activated.has(event.code as KeysAllow)) return;
+		this.#activated.add(event.code as KeysAllow);
 		// Down
 		this.#events.emit(
 			new EventKey('down', {
@@ -545,7 +558,7 @@ class KeyboardManager implements IEventSource<KeyboardEvents> {
 		if (this[BINDING]) return;
 		if (event.isComposing) return;
 		if (!KEYS_ALLOW.includes(event.code as any)) return;
-		this.#activated.delete(event.code);
+		this.#activated.delete(event.code as KeysAllow);
 		const alias = this.#findAlias(event.code);
 		// Up
 		this.#events.emit(
