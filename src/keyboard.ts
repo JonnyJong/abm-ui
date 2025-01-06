@@ -512,6 +512,14 @@ class KeyboardManager implements IEventSource<KeyboardEvents> {
 		delete this.#aliasMap[id];
 		return true;
 	}
+	isAliasActivated(id: string): boolean {
+		const keys = this.#aliasMap[id];
+		if (!keys) return false;
+		for (const key of keys) {
+			if (this.#activated.has(key)) return true;
+		}
+		return false;
+	}
 	//#region Bind
 	bind(): KeyBinder | null {
 		if (this[BINDING]) return null;
