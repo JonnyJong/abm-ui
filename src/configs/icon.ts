@@ -1,4 +1,4 @@
-import { makeURLForceReload } from 'abm-utils/url';
+import { makeURLForceReload } from 'abm-utils';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';

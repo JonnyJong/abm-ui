@@ -1,4 +1,4 @@
-import { run } from 'abm-utils/function';
+import { run } from 'abm-utils';
 import { IEventBaseCreateOptions, IEventBasic } from './api/base';
 //#region Self-Host Events API
 

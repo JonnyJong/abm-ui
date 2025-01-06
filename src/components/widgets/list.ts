@@ -1,5 +1,4 @@
-import { range } from 'abm-utils/math';
-import { sleep } from 'abm-utils/timer';
+import { range, sleep } from 'abm-utils';
 import { events, UIEventActive, UIEventSlide } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventHandler, Events, IEventSource } from 'event/events';

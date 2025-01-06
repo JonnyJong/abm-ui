@@ -1,4 +1,4 @@
-import { run } from 'abm-utils/function';
+import { run } from 'abm-utils';
 import { EventBase } from 'event/api/base';
 import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 

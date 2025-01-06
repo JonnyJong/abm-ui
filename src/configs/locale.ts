@@ -1,4 +1,4 @@
-import { run } from 'abm-utils/function';
+import { run } from 'abm-utils';
 
 export type LocaleOptions = Record<string, any>;
 

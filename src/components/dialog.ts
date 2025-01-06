@@ -1,5 +1,4 @@
-import { toArray } from 'abm-utils/array';
-import { sleep } from 'abm-utils/timer';
+import { sleep, toArray } from 'abm-utils';
 import { IEventBaseCreateOptions } from 'event/api/base';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';

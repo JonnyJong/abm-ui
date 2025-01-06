@@ -1,5 +1,4 @@
-import { Color } from 'abm-utils/color';
-import { clamp } from 'abm-utils/math';
+import { Color, clamp } from 'abm-utils';
 import { configs } from 'configs';
 import { events } from 'event';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';

@@ -1,6 +1,4 @@
-import { insertAt, toArray } from 'abm-utils/array';
-import { clamp, wrapInRange } from 'abm-utils/math';
-import { sleep } from 'abm-utils/timer';
+import { clamp, insertAt, sleep, toArray, wrapInRange } from 'abm-utils';
 import { UIContent, UIContentCreateOptions } from 'components/content';
 import { LocaleOptions, configs } from 'configs';
 import { events } from 'event';

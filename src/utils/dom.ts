@@ -1,6 +1,4 @@
-import { Arrayable, toArray } from 'abm-utils/array';
-import { Color } from 'abm-utils/color';
-import { range } from 'abm-utils/math';
+import { Arrayable, Color, range, toArray } from 'abm-utils';
 import { Widget } from 'components/widgets/base';
 
 //#region Raw DOM Control

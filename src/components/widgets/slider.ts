@@ -1,4 +1,4 @@
-import { clamp, genFitter } from 'abm-utils/math';
+import { clamp, genFitter } from 'abm-utils';
 import { tooltips } from 'components/tooltips';
 import { configs } from 'configs';
 import { events } from 'event';

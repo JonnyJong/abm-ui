@@ -1,6 +1,4 @@
-import { toArray } from 'abm-utils/array';
-import { Color } from 'abm-utils/color';
-import { sleep } from 'abm-utils/timer';
+import { Color, sleep, toArray } from 'abm-utils';
 import { configs } from 'configs';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';

@@ -1,5 +1,4 @@
-import { clamp } from 'abm-utils/math';
-import { sleep } from 'abm-utils/timer';
+import { clamp, sleep } from 'abm-utils';
 import { UIContentText, UIContentTextCreateOptions } from 'components/content';
 import { configs } from 'configs';
 import { events } from 'event';

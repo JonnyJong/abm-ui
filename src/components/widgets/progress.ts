@@ -1,6 +1,4 @@
-import { Color } from 'abm-utils/color';
-import { runSync } from 'abm-utils/function';
-import { clamp } from 'abm-utils/math';
+import { Color, clamp, runSync } from 'abm-utils';
 import { configs } from 'configs';
 import { $applyColor, $div } from 'utils/dom';
 import { Widget } from './base';

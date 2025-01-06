@@ -1,6 +1,5 @@
 import { Color } from 'abm-utils';
-import { runSync } from 'abm-utils/function';
-import { clamp } from 'abm-utils/math';
+import { clamp, runSync } from 'abm-utils';
 import { UIContent, UIContentCreateOptions, UIContentEvents } from 'components/content';
 import { configs } from 'configs';
 import { events } from 'event';

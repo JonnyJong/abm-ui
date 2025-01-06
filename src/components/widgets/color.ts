@@ -1,5 +1,4 @@
-import { Color } from 'abm-utils/color';
-import { runSync } from 'abm-utils/function';
+import { Color, runSync } from 'abm-utils';
 import { ColorPicker } from 'components/color-picker';
 import { configs } from 'configs';
 import { events } from 'event';

@@ -1,4 +1,4 @@
-import { Color, RGB, RGBA } from 'abm-utils/color';
+import { Color, RGB, RGBA } from 'abm-utils';
 import { $apply } from 'utils/dom';
 
 export type ColorScheme = 'system' | 'light' | 'dark';

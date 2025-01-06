@@ -1,4 +1,4 @@
-import { equalsSet } from 'abm-utils/array';
+import { equalsSet } from 'abm-utils';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventKey, IEventKeyCreateOptions } from 'event/api/key';
 import { EventHandler, Events, IEventSource } from 'event/events';

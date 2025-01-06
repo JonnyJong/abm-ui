@@ -1,4 +1,4 @@
-import { Vector2 } from 'abm-utils/vector';
+import { Vector2 } from 'abm-utils';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventValue, IEventValueCreateOptions } from 'event/api/value';
 import { EventVector, IEventVectorCreateOptions } from 'event/api/vector';

@@ -1,4 +1,4 @@
-import { toArray } from 'abm-utils/array';
+import { toArray } from 'abm-utils';
 import { navigate } from 'navigate';
 import { $div, $new, $path, DOMContents } from 'utils/dom';
 import { AnimationFrameController } from 'utils/timer';
