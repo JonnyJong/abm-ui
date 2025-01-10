@@ -49,7 +49,10 @@ class UIConfig implements IEventSource<UIConfigEvents> {
 	#observer: MutationObserver | null = null;
 	constructor() {
 		this.#globalCSSLink.rel = 'stylesheet';
-		document.addEventListener('DOMContentLoaded', () => document.head.append(this.#globalCSSLink));
+		document.addEventListener('DOMContentLoaded', () => {
+			if (!this.#autoInsertCSSLink) return;
+			document.head.append(this.#globalCSSLink);
+		});
 	}
 	get theme() {
 		return theme;
@@ -75,6 +78,20 @@ class UIConfig implements IEventSource<UIConfigEvents> {
 	}
 	getCSSImporter() {
 		return $new<UIImporterCSS>('ui-importer-css');
+	}
+	#autoInsertCSSLink = false;
+	get autoInsertCSSLink() {
+		return this.#autoInsertCSSLink;
+	}
+	set autoInsertCSSLink(value: boolean) {
+		value = !!value;
+		if (this.#autoInsertCSSLink === value) return;
+		this.#autoInsertCSSLink = value;
+		if (value) {
+			document.head.append(this.#globalCSSLink);
+			return;
+		}
+		this.#globalCSSLink.remove();
 	}
 	#dev = false;
 	get dev() {
