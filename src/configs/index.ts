@@ -100,24 +100,24 @@ class UIConfig implements IEventSource<UIConfigEvents> {
 	set dev(value: boolean) {
 		value = !!value;
 		if (this.#dev === value) return;
+		this.#dev = value;
 		if (this.#observer) {
 			this.#observer.disconnect();
 			this.#observer = null;
-		} else {
-			this.#observer = new MutationObserver(() =>
-				this.#event.emit(
-					new EventCustom('update:global-css', {
-						target: this,
-						details: this.#globalCSS,
-					}),
-				),
-			);
-			this.#observer.observe(this.#globalCSSLink, {
-				attributeFilter: ['href'],
-				attributes: true,
-			});
+			return;
 		}
-		this.#dev = value;
+		this.#observer = new MutationObserver(() =>
+			this.#event.emit(
+				new EventCustom('update:global-css', {
+					target: this,
+					details: this.#globalCSS,
+				}),
+			),
+		);
+		this.#observer.observe(this.#globalCSSLink, {
+			attributeFilter: ['href'],
+			attributes: true,
+		});
 	}
 }
 
