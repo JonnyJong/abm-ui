@@ -1,4 +1,5 @@
 import { makeURLForceReload } from 'abm-utils';
+import { configs } from 'configs';
 import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
 import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
 import { EventHandler, Events, IEventSource } from 'event/events';
@@ -22,7 +23,7 @@ export class UIImporterIcon extends HTMLElement {
 				super.append(linkElement);
 				this.#links.set(namespace, linkElement);
 			}
-			linkElement.href = makeURLForceReload(link);
+			linkElement.href = configs.dev ? makeURLForceReload(link) : link;
 		}
 		for (const [namespace, linkElement] of [...this.#links]) {
 			if (iconPacks.find(([n]) => n === namespace)) continue;

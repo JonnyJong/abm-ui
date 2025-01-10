@@ -26,11 +26,11 @@ export class UIImporterCSS extends HTMLElement {
 		this.#link.rel = 'stylesheet';
 	}
 	#handler = (event: UIConfigEvents['update:global-css']) => {
-		this.#link.href = makeURLForceReload(event.details);
+		this.#link.href = configs.dev ? makeURLForceReload(event.details) : event.details;
 	};
 	connectedCallback() {
 		configs.on('update:global-css', this.#handler);
-		this.#link.href = makeURLForceReload(configs.globalCSS);
+		this.#link.href = configs.dev ? makeURLForceReload(configs.globalCSS) : configs.globalCSS;
 		if (this.#inited) return;
 		this.#inited = true;
 		super.style.display = 'none';
@@ -46,22 +46,10 @@ class UIConfig implements IEventSource<UIConfigEvents> {
 	#event = new Events<UIConfigEvents>(['update:global-css']);
 	#globalCSSLink = $new<HTMLLinkElement>('link');
 	#globalCSS = '';
+	#observer: MutationObserver | null = null;
 	constructor() {
 		this.#globalCSSLink.rel = 'stylesheet';
 		document.addEventListener('DOMContentLoaded', () => document.head.append(this.#globalCSSLink));
-		// HACK: (Dev) Detecting live-server updates to CSS
-		const observer = new MutationObserver(() =>
-			this.#event.emit(
-				new EventCustom('update:global-css', {
-					target: this,
-					details: this.#globalCSS,
-				}),
-			),
-		);
-		observer.observe(this.#globalCSSLink, {
-			attributeFilter: ['href'],
-			attributes: true,
-		});
 	}
 	get theme() {
 		return theme;
@@ -78,13 +66,6 @@ class UIConfig implements IEventSource<UIConfigEvents> {
 	set globalCSS(value: string) {
 		this.#globalCSS = value;
 		this.#globalCSSLink.href = this.#globalCSS;
-		// HACK: (Dev) Detecting live-server updates to CSS
-		/* this.#event.emit(
-			new EventCustom('update:global-css', {
-				target: this,
-				details: this.#globalCSS,
-			})
-		); */
 	}
 	on<Type extends keyof UIConfigEvents>(type: Type, handler: EventHandler<Type, UIConfigEvents[Type], any>): void {
 		this.#event.on(type, handler);
@@ -94,6 +75,32 @@ class UIConfig implements IEventSource<UIConfigEvents> {
 	}
 	getCSSImporter() {
 		return $new<UIImporterCSS>('ui-importer-css');
+	}
+	#dev = false;
+	get dev() {
+		return this.#dev;
+	}
+	set dev(value: boolean) {
+		value = !!value;
+		if (this.#dev === value) return;
+		if (this.#observer) {
+			this.#observer.disconnect();
+			this.#observer = null;
+		} else {
+			this.#observer = new MutationObserver(() =>
+				this.#event.emit(
+					new EventCustom('update:global-css', {
+						target: this,
+						details: this.#globalCSS,
+					}),
+				),
+			);
+			this.#observer.observe(this.#globalCSSLink, {
+				attributeFilter: ['href'],
+				attributes: true,
+			});
+		}
+		this.#dev = value;
 	}
 }
 
