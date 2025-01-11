@@ -1,11 +1,2 @@
-/cache
-/dist
 node_modules
-/.rollup.cache
 /todo.md
-/example/index.html
-/example/script.d.ts
-/example/script.js
-/example/script.js.map
-/example/package.json
-/example/package-lock.json

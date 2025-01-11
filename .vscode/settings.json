@@ -1,7 +1,7 @@
 {
 	"typescript.tsdk": "./node_modules/typescript/lib",
 	// Auto Compile
-	"task.autoDetect": "on",
+	"task.autoDetect": "off",
 	// Test
 	"liveServer.settings.root": "/",
 	"liveServer.settings.wait": 1000,

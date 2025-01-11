@@ -14,26 +14,15 @@
 	},
 	"homepage": "https://github.com/JonnyJong/abm-ui#readme",
 	"scripts": {
-		"compile:style": "stylus -c ./style/main.styl -o ./dist/style.css && stylus -c ./style/var.styl -o ./dist/var.css",
-		"compile:ts": "rollup -c && tsc-alias",
-		"compile": "npm run compile:ts && npm run compile:style",
 		"lint": "biome check",
 		"test": "jest",
-		"test-coverage": "jest --coverage",
-		"watch:ts": "rollup -c && (concurrently \"rollup -c -w\" \"tsc-alias -w\")",
-		"watch:style": "(concurrently \"stylus -w -c ./style/main.styl -o ./dist/style.css\" \"stylus -w -c ./style/var.styl -o ./dist/var.css\")",
-		"watch": "rollup -c && (concurrently \"rollup -c -w\" \"tsc-alias -w\" \"stylus -w -c ./style/main.styl -o ./dist/style.css\" \"stylus -w -c ./style/var.styl -o ./dist/var.css\")"
+		"test-coverage": "jest --coverage"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@rollup/plugin-typescript": "12.1.2",
 		"@types/jest": "29.5.14",
-		"concurrently": "9.1.2",
 		"jest": "29.7.0",
 		"jest-environment-jsdom": "29.7.0",
-		"rollup": "4.30.0",
-		"rollup-plugin-pug": "1.1.1",
-		"stylus": "0.64.0",
 		"ts-jest": "29.2.5",
 		"tslib": "2.8.1",
 		"typescript": "5.7.2"

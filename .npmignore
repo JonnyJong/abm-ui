@@ -1,11 +1,7 @@
-.rollup.cache
 .vscode
-cache
-example
 node_modules
 test
 .gitattributes
 .gitignore
 jest.config.js
-rollup.config.js
 todo.md

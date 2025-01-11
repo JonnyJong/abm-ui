@@ -8,7 +8,7 @@
 	"files": {
 		"ignoreUnknown": false,
 		"ignore": [],
-		"include": ["src/**/*", "example/script.ts", "example/includes/**/*"]
+		"include": ["src/**/*"]
 	},
 	"formatter": {
 		"enabled": true,
