@@ -1,6 +1,6 @@
 import { run } from 'abm-utils';
-import { EventBase } from 'event/api/base';
-import { navigate } from 'navigate';
+import { navigate } from '../../navigate';
+import { EventBase } from '../api/base';
 import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export class UIEventHover extends EventBase<'hover', HTMLElement> implements IUIEventBase<'hover'> {

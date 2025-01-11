@@ -1,12 +1,12 @@
 import { RepeatingTriggerController } from 'abm-utils';
 import { Direction4, Vec2, Vector2, run } from 'abm-utils';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventValue, IEventValueCreateOptions } from 'event/api/value';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { GameController } from 'gamecontroller';
-import { KeyboardEvents, keyboard } from 'keyboard';
-import { $apply, $div } from 'utils/dom';
-import { AnimationFrameController } from 'utils/timer';
+import { EventBase, IEventBaseCreateOptions } from './event/api/base';
+import { EventValue, IEventValueCreateOptions } from './event/api/value';
+import { EventHandler, Events, IEventSource } from './event/events';
+import { GameController } from './gamecontroller';
+import { KeyboardEvents, keyboard } from './keyboard';
+import { $apply, $div } from './utils/dom';
+import { AnimationFrameController } from './utils/timer';
 
 export type NavDirection = Direction4 | 'next' | 'prev';
 export type NavigateCallbackArgs = [{ direction?: NavDirection; active?: boolean; cancel?: boolean }];

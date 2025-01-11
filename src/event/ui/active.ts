@@ -1,6 +1,6 @@
 import { run } from 'abm-utils';
-import { EventBase } from 'event/api/base';
-import { NavigateEvents, navigate } from 'navigate';
+import { NavigateEvents, navigate } from '../../navigate';
+import { EventBase } from '../api/base';
 import { IUIEventBase, IUIEventBaseManage, IUIEventHandler } from './base';
 
 export class UIEventActive extends EventBase<'active', HTMLElement> implements IUIEventBase<'active'> {

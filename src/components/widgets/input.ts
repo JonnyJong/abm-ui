@@ -1,18 +1,17 @@
 import { clamp, insertAt, sleep, toArray, wrapInRange } from 'abm-utils';
-import { UIContent, UIContentCreateOptions } from 'components/content';
-import { LocaleOptions, configs } from 'configs';
-import { events } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { KeyboardEvents, keyboard } from 'keyboard';
-import { Navigable, NavigateCallbackArgs, navigate } from 'navigate';
-import { $apply, $div, $new, DOMContents } from 'utils/dom';
-import { AnimationFrameController } from 'utils/timer';
+import { UIContent, UIContentCreateOptions } from '../../components/content';
+import { LocaleOptions, configs } from '../../configs';
+import { events } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { EventCustom, IEventCustomCreateOptions } from '../../event/api/custom';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { KeyboardEvents, keyboard } from '../../keyboard';
+import { Navigable, NavigateCallbackArgs, navigate } from '../../navigate';
+import { $apply, $div, $new, DOMContents } from '../../utils/dom';
+import { AnimationFrameController } from '../../utils/timer';
 import { Widget } from './base';
 import { WidgetBtn } from './btn';
 import { WidgetLang } from './lang';
-import TEMPLATE from './templates/input.static.pug';
 
 export interface WidgetInputEvents<
 	Value extends WidgetInputValue,
@@ -417,14 +416,10 @@ export class WidgetInput<Value extends WidgetInputValue>
 	#valueChanged = false;
 	[EVENTS] = new Events<WidgetInputEvents<Value>>(['input', 'autofill', 'action', 'confirm']);
 	[SHADOW_ROOT] = this.attachShadow({ mode: 'open' });
-	[INPUT_ELEMENT]: HTMLInputElement;
+	[INPUT_ELEMENT] = $new<HTMLInputElement>('input', { class: 'w-input' });
 	constructor() {
 		super();
-		this[SHADOW_ROOT].innerHTML = TEMPLATE;
-		this[SHADOW_ROOT].prepend(configs.getCSSImporter());
-		this[INPUT_ELEMENT] = this[SHADOW_ROOT].querySelector('input')!;
-		// Placeholder
-		this.#placeholder = this[SHADOW_ROOT].querySelector('.w-input-placeholder')!;
+		this[SHADOW_ROOT].append(configs.getCSSImporter(), this.#placeholder, this[INPUT_ELEMENT]);
 	}
 	connectedCallback() {
 		this.toggleAttribute('ui-nav', true);
@@ -458,7 +453,7 @@ export class WidgetInput<Value extends WidgetInputValue>
 		this[SET_PLACEHOLDER_VISIBILITY]();
 	}
 	//#region Placeholder
-	#placeholder: WidgetLang;
+	#placeholder = $new<WidgetLang>('w-lang', { class: 'w-input-placeholder' });
 	[SET_PLACEHOLDER_VISIBILITY]() {
 		this.#placeholder.classList.toggle('w-input-placeholder-hidden', !!this[INPUT_ELEMENT].value.length);
 	}
@@ -586,12 +581,13 @@ export interface WidgetTextProp extends WidgetInputProp<string> {}
 export class WidgetText extends WidgetInput<string> implements Navigable {
 	declare _prop?: WidgetTextProp;
 	#autoFill?: WidgetInputAutoFill<string>;
-	#actionsLeftElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[left]')!;
-	#actionsRightElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[right]')!;
+	#actionsLeftElement = $div({ class: 'w-input-action', attr: { left: '' } });
+	#actionsRightElement = $div({ class: 'w-input-action', attr: { right: '' } });
 	#actionsLeft = new WidgetInputAction<string>(this, this.#actionsLeftElement);
 	#actionsRight = new WidgetInputAction<string>(this, this.#actionsRightElement);
 	constructor() {
 		super();
+		this[SHADOW_ROOT].append(this.#actionsLeftElement, this.#actionsRightElement);
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
 			navigate.addLayer(this);
@@ -663,12 +659,13 @@ export interface WidgetPasswordProp extends WidgetInputProp<string> {
 export class WidgetPassword extends WidgetInput<string> implements Navigable {
 	declare _prop?: WidgetPasswordProp;
 	#autoFill?: WidgetInputAutoFill<string>;
-	#actionsLeftElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[left]')!;
-	#actionsRightElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[right]')!;
+	#actionsLeftElement = $div({ class: 'w-input-action', attr: { left: '' } });
+	#actionsRightElement = $div({ class: 'w-input-action', attr: { right: '' } });
 	#actionsLeft = new WidgetInputAction<string>(this, this.#actionsLeftElement);
 	#actionsRight = new WidgetInputAction<string>(this, this.#actionsRightElement);
 	constructor() {
 		super();
+		this[SHADOW_ROOT].append(this.#actionsLeftElement, this.#actionsRightElement);
 		this[INPUT_ELEMENT].type = 'password';
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);
@@ -766,12 +763,13 @@ export class WidgetNumber extends WidgetInput<number> implements Navigable {
 		if (!this.#autoFill) this.#autoFill = new WidgetInputAutoFill(this);
 		return this.#autoFill;
 	}
-	#actionsLeftElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[left]')!;
-	#actionsRightElement = this[SHADOW_ROOT].querySelector<HTMLDivElement>('.w-input-action[right]')!;
+	#actionsLeftElement = $div({ class: 'w-input-action', attr: { left: '' } });
+	#actionsRightElement = $div({ class: 'w-input-action', attr: { right: '' } });
 	#actionsLeft = new WidgetInputAction<number>(this, this.#actionsLeftElement);
 	#actionsRight = new WidgetInputAction<number>(this, this.#actionsRightElement);
 	constructor() {
 		super();
+		this[SHADOW_ROOT].append(this.#actionsLeftElement, this.#actionsRightElement);
 		this[INPUT_ELEMENT].type = 'number';
 		this[INPUT_ELEMENT].addEventListener('focus', () => {
 			keyboard.on('aliasPress', this.#aliasPressHandler);

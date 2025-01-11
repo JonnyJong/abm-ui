@@ -1,10 +1,11 @@
-import { configs } from 'configs';
-import { events } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { Navigable } from 'navigate';
+import { configs } from '../../configs';
+import { events } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { Navigable } from '../../navigate';
 import { Widget } from './base';
-import TEMPLATE from './templates/checkbox.static.pug';
+
+const TEMPLATE = `<div class="w-checkbox"><svg width="12" height="9" fill="none" viewBox="0 0 12 9"><path class="w-checkbox-mark" d="M 0.99038251,4.9854434 4.0129808,8.0145144 11.009617,0.98551681"></path></svg></div><slot></slot>`;
 
 export interface WidgetCheckboxEvents {
 	change: IEventBaseCreateOptions<WidgetCheckbox>;

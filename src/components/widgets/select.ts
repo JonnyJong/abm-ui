@@ -1,15 +1,14 @@
 import { clamp, sleep } from 'abm-utils';
-import { UIContentText, UIContentTextCreateOptions } from 'components/content';
-import { configs } from 'configs';
-import { events } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { IEventCustom } from 'event/api/custom';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { Navigable, NavigateEvents, navigate } from 'navigate';
-import { $div, $new } from 'utils/dom';
+import { UIContentText, UIContentTextCreateOptions } from '../../components/content';
+import { configs } from '../../configs';
+import { events } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { IEventCustom } from '../../event/api/custom';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { Navigable, NavigateEvents, navigate } from '../../navigate';
+import { $div, $new } from '../../utils/dom';
 import { Widget } from './base';
 import { WidgetIcon } from './icon';
-import TEMPLATE from './templates/select.static.pug';
 
 const ITEM_HEIGHT = 32;
 
@@ -86,18 +85,14 @@ export class WidgetSelect<Value = any> extends Widget implements IEventSource<Wi
 	#inited = false;
 	#events = new Events<WidgetSelectEvents>(['change']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
-	#icon: WidgetIcon;
-	#contentElement: HTMLDivElement;
+	#icon = $new<WidgetIcon>('w-icon', { class: 'w-select-icon' });
+	#contentElement = $div({ class: 'w-select-content' });
 	constructor() {
 		super();
-		this.#shadowRoot.innerHTML = TEMPLATE;
-		this.#shadowRoot.prepend(configs.getCSSImporter());
+		this.#shadowRoot.append(configs.getCSSImporter(), this.#contentElement, this.#placeholderElement, this.#icon);
 		// Content
-		this.#contentElement = this.#shadowRoot.querySelector('.w-select-content')!;
-		this.#icon = this.#shadowRoot.querySelector('.w-select-icon')!;
 		this.#icon.key = configs.icons.defaults.selectExpand;
 		// Placeholder
-		this.#placeholderElement = this.#shadowRoot.querySelector('.w-select-placeholder')!;
 		this.#placeholder.on('update:label', this.#updatePlaceholder);
 		this.#updatePlaceholder();
 		// Picker
@@ -216,7 +211,7 @@ export class WidgetSelect<Value = any> extends Widget implements IEventSource<Wi
 		this.#updateContent();
 	}
 	//#region Placeholder
-	#placeholderElement: HTMLDivElement;
+	#placeholderElement = $div({ class: 'w-select-placeholder' });
 	#placeholder = new UIContentText();
 	#updatePlaceholder = () => {
 		this.#placeholderElement.replaceChildren(this.#placeholder.labelElement);

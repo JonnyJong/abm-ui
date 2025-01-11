@@ -1,7 +1,7 @@
-import { LocaleOptions } from 'configs/locale';
-import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { $div, $new } from 'utils/dom';
+import { LocaleOptions } from '../configs/locale';
+import { EventCustom, IEventCustomCreateOptions } from '../event/api/custom';
+import { EventHandler, Events, IEventSource } from '../event/events';
+import { $div, $new } from '../utils/dom';
 import { WidgetIcon } from './widgets/icon';
 import { WidgetLang } from './widgets/lang';
 import { WidgetProgressRing } from './widgets/progress';

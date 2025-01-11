@@ -1,8 +1,8 @@
 import { Color, sleep, toArray } from 'abm-utils';
-import { configs } from 'configs';
-import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { $div, $new, DOMContents } from 'utils/dom';
+import { configs } from '../configs';
+import { EventCustom, IEventCustomCreateOptions } from '../event/api/custom';
+import { EventHandler, Events, IEventSource } from '../event/events';
+import { $div, $new, DOMContents } from '../utils/dom';
 import { UIContent, UIContentCreateOptions, UIContentEvents } from './content';
 import { WidgetBtn, WidgetBtnState } from './widgets/btn';
 

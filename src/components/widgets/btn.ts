@@ -1,15 +1,14 @@
 import { Color } from 'abm-utils';
 import { clamp, runSync } from 'abm-utils';
-import { UIContent, UIContentCreateOptions, UIContentEvents } from 'components/content';
-import { configs } from 'configs';
-import { events } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { Navigable } from 'navigate';
-import { $applyColor } from 'utils/dom';
-import { AnimationFrameController } from 'utils/timer';
+import { UIContent, UIContentCreateOptions, UIContentEvents } from '../../components/content';
+import { configs } from '../../configs';
+import { events } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { Navigable } from '../../navigate';
+import { $applyColor, $div } from '../../utils/dom';
+import { AnimationFrameController } from '../../utils/timer';
 import { Widget } from './base';
-import TEMPLATE from './templates/btn.static.pug';
 
 export interface WidgetBtnEvents {
 	active: IEventBaseCreateOptions<WidgetBtn>;
@@ -37,16 +36,10 @@ export class WidgetBtn extends Widget implements IEventSource<WidgetBtnEvents>, 
 	#shadowRoot = this.attachShadow({ mode: 'open' });
 	constructor() {
 		super();
-		this.#shadowRoot.innerHTML = TEMPLATE;
-		this.#contentElement = this.#shadowRoot.querySelector('.w-btn-content')!;
-		this.#shadowRoot.prepend(configs.getCSSImporter());
+		this.#shadowRoot.append(configs.getCSSImporter(), this.#progressElement, this.#activeProgress, this.#contentElement);
 		// Contents
 		this.#content.on('update:icon', this.#iconUpdateHandler);
 		this.#content.on('update:label', this.#labelUpdateHandler);
-		// Delay
-		this.#activeProgress = this.#shadowRoot.querySelector('.w-btn-active-progress')!;
-		// Progress
-		this.#progressElement = this.#shadowRoot.querySelector('.w-btn-progress')!;
 		// Event
 		events.hover.add(this);
 		events.active.on(this, (event) => {
@@ -91,7 +84,7 @@ export class WidgetBtn extends Widget implements IEventSource<WidgetBtnEvents>, 
 	}
 	//#region Contents
 	#content = new UIContent();
-	#contentElement: HTMLDivElement;
+	#contentElement = $div({ class: 'w-btn-content' });
 	#iconUpdateHandler = (event: UIContentEvents['update:icon']) => {
 		this.#inited = true;
 		event.details.before?.remove();
@@ -160,7 +153,7 @@ export class WidgetBtn extends Widget implements IEventSource<WidgetBtnEvents>, 
 	//#region Delay
 	#delay = 0;
 	#activeDuration = 0;
-	#activeProgress: HTMLDivElement;
+	#activeProgress = $div({ class: 'w-btn-active-progress' });
 	#activePrevTime = 0;
 	#activeController = new AnimationFrameController((time) => {
 		if (this.#activePrevTime === 0) {
@@ -189,7 +182,7 @@ export class WidgetBtn extends Widget implements IEventSource<WidgetBtnEvents>, 
 	}
 	//#region Progress
 	#progress = 100;
-	#progressElement: HTMLDivElement;
+	#progressElement = $div({ class: 'w-btn-progress' });
 	get progress() {
 		return this.#progress;
 	}

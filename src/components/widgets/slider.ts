@@ -1,15 +1,15 @@
 import { clamp, genFitter } from 'abm-utils';
-import { tooltips } from 'components/tooltips';
-import { configs } from 'configs';
-import { events } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventValue, IEventValueCreateOptions } from 'event/api/value';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { UIEventSlide } from 'event/ui/slide';
-import { KeyboardEvents, keyboard } from 'keyboard';
-import { Navigable, NavigateCallbackArgs, navigate } from 'navigate';
+import { tooltips } from '../../components/tooltips';
+import { configs } from '../../configs';
+import { events } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { EventValue, IEventValueCreateOptions } from '../../event/api/value';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { UIEventSlide } from '../../event/ui/slide';
+import { KeyboardEvents, keyboard } from '../../keyboard';
+import { Navigable, NavigateCallbackArgs, navigate } from '../../navigate';
+import { $div } from '../../utils/dom';
 import { Widget } from './base';
-import TEMPLATE from './templates/slider.static.pug';
 
 export interface WidgetSliderEvents {
 	input: IEventValueCreateOptions<WidgetSlider, number>;
@@ -31,16 +31,12 @@ export class WidgetSlider extends Widget implements IEventSource<WidgetSliderEve
 	#inited = false;
 	#events = new Events<WidgetSliderEvents>(['change', 'input']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
-	#container: HTMLDivElement;
-	#track: HTMLDivElement;
-	#thumb: HTMLDivElement;
+	#track = $div({ class: 'w-slider-track' }, $div({ class: 'w-slider-cover' }));
+	#thumb = $div({ class: 'w-slider-thumb' });
+	#container = $div({ class: 'w-slider' }, this.#track, this.#thumb);
 	constructor() {
 		super();
-		this.#shadowRoot.innerHTML = TEMPLATE;
-		this.#shadowRoot.prepend(configs.getCSSImporter());
-		this.#container = this.#shadowRoot.querySelector('.w-slider')!;
-		this.#track = this.#shadowRoot.querySelector('.w-slider-track')!;
-		this.#thumb = this.#shadowRoot.querySelector('.w-slider-thumb')!;
+		this.#shadowRoot.append(configs.getCSSImporter(), this.#container);
 		events.hover.add(this.#container);
 		events.slide.on(this.#container, this.#slideHandler);
 		tooltips.set(this, '0');

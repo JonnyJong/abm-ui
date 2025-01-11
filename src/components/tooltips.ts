@@ -1,7 +1,7 @@
 import { toArray } from 'abm-utils';
-import { navigate } from 'navigate';
-import { $div, $new, $path, DOMContents } from 'utils/dom';
-import { AnimationFrameController } from 'utils/timer';
+import { navigate } from '../navigate';
+import { $div, $new, $path, DOMContents } from '../utils/dom';
+import { AnimationFrameController } from '../utils/timer';
 import { WidgetLang } from './widgets/lang';
 
 interface UITooltipsPosition {

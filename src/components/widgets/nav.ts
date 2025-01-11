@@ -1,10 +1,10 @@
-import { UIContentAll, UIContentAllCreateOptions } from 'components/content';
-import { configs } from 'configs';
-import { events } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { Navigable } from 'navigate';
-import { $div } from 'utils/dom';
+import { UIContentAll, UIContentAllCreateOptions } from '../../components/content';
+import { configs } from '../../configs';
+import { events } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { Navigable } from '../../navigate';
+import { $div } from '../../utils/dom';
 import { Widget } from './base';
 
 export interface WidgetNavEvents<ID extends string = string> {

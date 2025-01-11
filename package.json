@@ -2,10 +2,7 @@
 	"name": "abm-ui",
 	"version": "0.0.4",
 	"description": "The UI lib from ABM",
-	"main": "dist/index.cjs.js",
-	"module": "dist/index.esm.js",
-	"unpkg": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "src/index.ts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/JonnyJong/abm-ui.git"
@@ -38,7 +35,6 @@
 		"rollup-plugin-pug": "1.1.1",
 		"stylus": "0.64.0",
 		"ts-jest": "29.2.5",
-		"tsc-alias": "1.8.10",
 		"tslib": "2.8.1",
 		"typescript": "5.7.2"
 	},

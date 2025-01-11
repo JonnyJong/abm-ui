@@ -21,7 +21,7 @@
 		"allowJs": false,
 		"allowSyntheticDefaultImports": true,
 		// Module Resolution Options
-		"baseUrl": "src",
+		// "baseUrl": "src",
 		// Language Features Options
 		"esModuleInterop": true,
 		"resolveJsonModule": true,

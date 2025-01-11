@@ -1,9 +1,9 @@
 import { range, sleep } from 'abm-utils';
-import { events, UIEventActive, UIEventSlide } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { keyboard } from 'keyboard';
-import { Navigable } from 'navigate';
+import { events, UIEventActive, UIEventSlide } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { keyboard } from '../../keyboard';
+import { Navigable } from '../../navigate';
 import { Widget } from './base';
 
 export interface WidgetListEvents {

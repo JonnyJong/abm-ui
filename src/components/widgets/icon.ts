@@ -1,6 +1,6 @@
-import { configs } from 'configs';
-import { icons } from 'configs/icon';
-import { $div } from 'utils/dom';
+import { configs } from '../../configs';
+import { icons } from '../../configs/icon';
+import { $div } from '../../utils/dom';
 import { Widget } from './base';
 
 export interface WidgetIconProp {

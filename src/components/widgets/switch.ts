@@ -1,10 +1,10 @@
-import { configs } from 'configs';
-import { events, UIEventActive, UIEventSlide } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { Navigable } from 'navigate';
+import { configs } from '../../configs';
+import { events, UIEventActive, UIEventSlide } from '../../event';
+import { EventBase, IEventBaseCreateOptions } from '../../event/api/base';
+import { EventHandler, Events, IEventSource } from '../../event/events';
+import { Navigable } from '../../navigate';
+import { $div } from '../../utils/dom';
 import { Widget } from './base';
-import TEMPLATE from './templates/switch.static.pug';
 
 export interface WidgetSwitchEvents {
 	change: IEventBaseCreateOptions<WidgetSwitch>;
@@ -22,12 +22,10 @@ export class WidgetSwitch extends Widget implements IEventSource<WidgetSwitchEve
 	#inited = false;
 	#events = new Events<WidgetSwitchEvents>(['change']);
 	#shadowRoot = this.attachShadow({ mode: 'open' });
-	#track: HTMLDivElement;
+	#track = $div({ class: 'w-switch-track' }, $div({ class: 'w-switch-thumb' }));
 	constructor() {
 		super();
-		this.#shadowRoot.innerHTML = TEMPLATE;
-		this.#shadowRoot.prepend(configs.getCSSImporter());
-		this.#track = this.#shadowRoot.querySelector('.w-switch-track')!;
+		this.#shadowRoot.append(configs.getCSSImporter(), this.#track);
 		events.hover.add(this.#track);
 		events.active.on(this, this.#activeHandler);
 		events.slide.on(this.#track, this.#slideHandler);

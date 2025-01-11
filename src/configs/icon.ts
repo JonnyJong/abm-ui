@@ -1,9 +1,9 @@
 import { makeURLForceReload } from 'abm-utils';
-import { configs } from 'configs';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventCustom, IEventCustomCreateOptions } from 'event/api/custom';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { $new } from 'utils/dom';
+import { EventBase, IEventBaseCreateOptions } from '../event/api/base';
+import { EventCustom, IEventCustomCreateOptions } from '../event/api/custom';
+import { EventHandler, Events, IEventSource } from '../event/events';
+import { $new } from '../utils/dom';
+import { configs } from './index';
 
 //#region Importer
 /**

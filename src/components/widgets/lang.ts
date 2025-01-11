@@ -1,4 +1,4 @@
-import { LocaleOptions, configs } from 'configs';
+import { LocaleOptions, configs } from '../../configs';
 import { Widget } from './base';
 
 export interface WidgetLangProp {

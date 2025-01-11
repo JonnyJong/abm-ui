@@ -1,10 +1,10 @@
 import { Color, clamp } from 'abm-utils';
-import { configs } from 'configs';
-import { events } from 'event';
-import { EventBase, IEventBaseCreateOptions } from 'event/api/base';
-import { EventValue, IEventValueCreateOptions } from 'event/api/value';
-import { EventHandler, Events, IEventSource } from 'event/events';
-import { $div, $new } from 'utils/dom';
+import { configs } from '../configs';
+import { events } from '../event';
+import { EventBase, IEventBaseCreateOptions } from '../event/api/base';
+import { EventValue, IEventValueCreateOptions } from '../event/api/value';
+import { EventHandler, Events, IEventSource } from '../event/events';
+import { $div, $new } from '../utils/dom';
 import { Dialog } from './dialog';
 import { WidgetNumber, WidgetText } from './widgets/input';
 import { WidgetLang } from './widgets/lang';
