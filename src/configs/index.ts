@@ -69,6 +69,12 @@ class UIConfig implements IEventSource<UIConfigEvents> {
 	set globalCSS(value: string) {
 		this.#globalCSS = value;
 		this.#globalCSSLink.href = this.#globalCSS;
+		this.#event.emit(
+			new EventCustom('update:global-css', {
+				target: this,
+				details: this.#globalCSS,
+			}),
+		);
 	}
 	on<Type extends keyof UIConfigEvents>(type: Type, handler: EventHandler<Type, UIConfigEvents[Type], any>): void {
 		this.#event.on(type, handler);
