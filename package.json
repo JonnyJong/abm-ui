@@ -28,6 +28,6 @@
 		"typescript": "5.7.2"
 	},
 	"dependencies": {
-		"abm-utils": "0.0.3"
+		"abm-utils": "^0.0.7"
 	}
 }
