@@ -75,3 +75,47 @@ class Locale {
 }
 
 export const locale = new Locale();
+
+export class LocaleProvider {
+	#namespace = '';
+	#key = '';
+	options?: LocaleOptions;
+	#subscriptions: Set<Function> = new Set();
+	on(handler: Function) {
+		this.#subscriptions.add(handler);
+	}
+	off(handler: Function) {
+		this.#subscriptions.delete(handler);
+	}
+	#handler = () => {
+		for (const handler of this.#subscriptions) {
+			run(handler);
+		}
+	};
+	get namespace() {
+		return this.#namespace;
+	}
+	set namespace(value: string) {
+		if (value === this.#namespace) return;
+		locale.off(this.#namespace, this.#handler);
+		this.#namespace = value;
+		locale.on(this.#namespace, this.#handler);
+	}
+	get key() {
+		if (!this.#namespace) return this.#key;
+		return `${this.namespace}:${this.#key}`;
+	}
+	set key(value: string) {
+		const i = value.indexOf(':');
+		if (i !== -1) {
+			this.#namespace = value.slice(0, i);
+		}
+		this.#key = value.slice(i + 1);
+	}
+	text() {
+		locale.get(this.#key, this.options, this.#namespace);
+	}
+	toString() {
+		return this.text();
+	}
+}
