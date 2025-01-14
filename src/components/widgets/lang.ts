@@ -61,6 +61,9 @@ export class WidgetLang extends Widget {
 		lang.options = this.options;
 		return lang;
 	}
+	toString() {
+		return this.textContent;
+	}
 	_prop?: WidgetLang;
 }
 
