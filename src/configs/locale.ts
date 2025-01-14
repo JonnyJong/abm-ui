@@ -35,7 +35,7 @@ class Locale {
 		const i = key.indexOf(':');
 		if (typeof namespace !== 'string' && i !== -1) {
 			namespace = key.slice(0, i);
-} else {
+		} else {
 			namespace = '';
 		}
 		const dict = this.#dicts.get(namespace);
