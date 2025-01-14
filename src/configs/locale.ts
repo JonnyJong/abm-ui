@@ -42,8 +42,10 @@ class Locale {
 		if (!dict) return key;
 		return dict.get(key.slice(i + 1), options);
 	}
-	emitUpdate(namespace: string) {
-		const subscriptions = this.#subscriptions.get(namespace);
+	emitUpdate(namespace?: string) {
+		const subscriptions = namespace
+			? this.#subscriptions.get(namespace)
+			: [...this.#subscriptions.values()].flatMap((set) => [...set]);
 		if (!subscriptions) return;
 		for (const handler of subscriptions) {
 			run(handler);
