@@ -1,4 +1,5 @@
 import { LocaleOptions, configs } from '../../configs';
+import { LocaleProvider } from '../../configs/locale';
 import { Widget } from './base';
 
 export interface WidgetLangProp {
@@ -9,14 +10,12 @@ export interface WidgetLangProp {
 export class WidgetLang extends Widget {
 	#inited = false;
 	#shadowRoot = this.attachShadow({ mode: 'open' });
-	#namespace = '';
-	#key = '';
-	options?: LocaleOptions;
+	#locale = new LocaleProvider();
 	#handler = () => {
 		this.#reset();
 	};
 	connectedCallback() {
-		configs.locale.on(this.#namespace, this.#handler);
+		configs.locale.on(this.#locale.namespace, this.#handler);
 		if (this.#inited) {
 			this.#reset();
 			return;
@@ -25,40 +24,43 @@ export class WidgetLang extends Widget {
 		this.key = this.textContent ?? '';
 	}
 	disconnectedCallback() {
-		configs.locale.off(this.#namespace, this.#handler);
+		configs.locale.off(this.#locale.namespace, this.#handler);
 	}
 	#reset() {
-		this.#shadowRoot.textContent = configs.locale.get(this.key, this.options);
+		this.#shadowRoot.textContent = this.#locale.text();
 		this.#shadowRoot.innerHTML = this.#shadowRoot.innerHTML.replace('\n', '<br>');
 	}
 	get namespace() {
-		return this.#namespace;
+		return this.#locale.namespace;
 	}
 	set namespace(value: string) {
 		this.#inited = true;
-		if (value === this.#namespace) return;
-		configs.locale.off(this.#namespace, this.#handler);
-		this.#namespace = value;
-		configs.locale.on(this.#namespace, this.#handler);
+		const namespace = this.#locale.namespace;
+		if (value === namespace) return;
+		configs.locale.off(namespace, this.#handler);
+		this.#locale.namespace = value;
+		configs.locale.on(value, this.#handler);
 		this.#reset();
 	}
 	get key() {
-		if (!this.#namespace) return this.#key;
-		return `${this.namespace}:${this.#key}`;
+		return this.#locale.key;
 	}
 	set key(value: string) {
 		this.#inited = true;
-		const i = value.indexOf(':');
-		if (i !== -1) {
-			this.#namespace = value.slice(0, i);
-		}
-		this.#key = value.slice(i + 1);
+		this.#locale.key = value;
+		this.#reset();
+	}
+	get options() {
+		return this.#locale.options;
+	}
+	set options(value: LocaleOptions | undefined) {
+		this.#locale.options = value;
 		this.#reset();
 	}
 	cloneNode(deep?: boolean): WidgetLang {
 		const lang = super.cloneNode(deep) as WidgetLang;
-		lang.key = this.key;
 		lang.options = this.options;
+		lang.key = this.key;
 		return lang;
 	}
 	toString() {
