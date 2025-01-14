@@ -99,7 +99,7 @@ export class LocaleProvider {
 		this.#key = value.slice(i + 1);
 	}
 	text() {
-		locale.get(this.#key, this.options, this.#namespace);
+		return locale.get(this.#key, this.options, this.#namespace);
 	}
 	toString() {
 		return this.text();
