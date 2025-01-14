@@ -31,11 +31,12 @@ class Locale {
 	get dictsNamespace() {
 		return [...this.#dicts.keys()];
 	}
-	get(key: string, options?: LocaleOptions): string {
+	get(key: string, options?: LocaleOptions, namespace?: string): string {
 		const i = key.indexOf(':');
-		let namespace = '';
-		if (i !== -1) {
+		if (typeof namespace !== 'string' && i !== -1) {
 			namespace = key.slice(0, i);
+} else {
+			namespace = '';
 		}
 		const dict = this.#dicts.get(namespace);
 		if (!dict) return key;
