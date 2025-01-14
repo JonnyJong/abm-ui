@@ -80,26 +80,12 @@ export class LocaleProvider {
 	#namespace = '';
 	#key = '';
 	options?: LocaleOptions;
-	#subscriptions: Set<Function> = new Set();
-	on(handler: Function) {
-		this.#subscriptions.add(handler);
-	}
-	off(handler: Function) {
-		this.#subscriptions.delete(handler);
-	}
-	#handler = () => {
-		for (const handler of this.#subscriptions) {
-			run(handler);
-		}
-	};
 	get namespace() {
 		return this.#namespace;
 	}
 	set namespace(value: string) {
 		if (value === this.#namespace) return;
-		locale.off(this.#namespace, this.#handler);
 		this.#namespace = value;
-		locale.on(this.#namespace, this.#handler);
 	}
 	get key() {
 		if (!this.#namespace) return this.#key;
