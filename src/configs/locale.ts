@@ -80,6 +80,10 @@ export class LocaleProvider {
 	#namespace = '';
 	#key = '';
 	options?: LocaleOptions;
+	constructor(key?: string, namespace?: string) {
+		if (typeof key === 'string') this.key = key;
+		if (typeof namespace === 'string') this.namespace = namespace;
+	}
 	get namespace() {
 		return this.#namespace;
 	}
