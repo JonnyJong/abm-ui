@@ -1,4 +1,4 @@
-import { toArray } from 'abm-utils';
+import { clamp, toArray } from 'abm-utils';
 import { navigate } from '../navigate';
 import { $div, $new, $path, DOMContents } from '../utils/dom';
 import { AnimationFrameController } from '../utils/timer';
@@ -85,7 +85,7 @@ class UITooltips {
 			const { left, top, bottom, width: size } = arg0.getBoundingClientRect();
 			y = top - height - PADDING;
 			if (y < 0) y = bottom + PADDING;
-			x = left + size / 2 - width / 2;
+			x = clamp(PADDING, left + size / 2 - width / 2, window.innerWidth - PADDING - width);
 		} else {
 			x = arg0.x;
 			y = arg0.y;
