@@ -5,14 +5,15 @@ import { $new } from '../utils/dom';
 import { icons } from './icon';
 import { locale } from './locale';
 import { theme } from './theme';
-export {
+export type {
 	UIDefaultKeys,
 	UIDefaultDict,
 	LocaleOptions,
 	LocaleDict,
 } from './locale';
-export { UIImporterIcon, IconManageEvents } from './icon';
-export { ColorScheme } from './theme';
+export type { IconManageEvents } from './icon';
+export { UIImporterIcon } from './icon';
+export type { ColorScheme } from './theme';
 
 interface UIConfigEvents {
 	'update:global-css': IEventCustomCreateOptions<UIConfig, string>;

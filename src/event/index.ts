@@ -20,6 +20,9 @@ class ProvidedEvents {
 
 export const events = new ProvidedEvents();
 
-export { UIEventHover, UIEventHoverHandler } from './ui/hover';
-export { UIEventActive, UIEventActiveHandler } from './ui/active';
-export { UIEventSlide, UIEventSlideHandler, UIEventSlideState } from './ui/slide';
+export type { UIEventHoverHandler } from './ui/hover';
+export { UIEventHover } from './ui/hover';
+export type { UIEventActiveHandler } from './ui/active';
+export { UIEventActive } from './ui/active';
+export type { UIEventSlideHandler, UIEventSlideState } from './ui/slide';
+export { UIEventSlide } from './ui/slide';
